@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('CSS/plugins/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/global.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/auth/auth.css') }}">
+
+    <!-- JS -->
+
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+</head>
+
+<body>
+    <x-Navbar />
+
+    <section id="Login">
+        <div class="container my-5">
+            <form class="w-25 m-auto" method="POST" action="{{ route('/auth/login') }}">
+                <h1 class="text-center mb-4 text-success">Login</h1>
+                {{ getSessionMsg('_errorMsg', 'danger') }}
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email :</label>
+                    <input type="email" class="form-control" id="Email" name="email" value="{{ old('email') }}">
+                    {{ getError('email') }}
+                </div>
+                <div class="mb-3">
+                    <label for="Password" class="form-label">Password :</label>
+                    <input type="password" class="form-control" id="Password" name="password" value="{{ old('password') }}">
+                    {{ getError('password') }}
+                </div>
+                <button type="submit" class="btn btn-success w-100">Login</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+
+</html>
