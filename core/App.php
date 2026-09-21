@@ -23,7 +23,6 @@ class App
         require_once __DIR__ . "/Route.php";
         require_once __DIR__ . "/Request.php";
 
-        $_SESSION['user'] = [];
 
         Route::dispatch();
     }

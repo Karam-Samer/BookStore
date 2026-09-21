@@ -21,10 +21,9 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-3 mb-4">
-                    <div class="card text-center rounded-4 py-3 px-2 shadow-sm">
-                        <img src="assets/user.png" class="card-img-top user-avatar" alt="User Avatar" role="button"
-                            data-bs-toggle="modal" data-bs-target="#userEditModal">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card text-center rounded-4 py-3 px-2 border-0 shadow-sm">
+                        <img src="{{ asset('images/default.png') }}" class="card-img-top m-auto" alt="" style="width: 100px;">
 
                         <div class="card-body">
                             <h5 class="card-title mb-3 d-flex align-items-center justify-content-center gap-2">
@@ -33,47 +32,55 @@
                                 <span>Mohamed Atya</span>
                             </h5>
 
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <div class="d-flex align-items-center gap-2">
+                            <div class="row mb-3">
+                                <div class="col-4 d-flex">
                                     <i class="fa-regular fa-pen-to-square edit text-info" role="button"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal"></i>
-                                    <h6 class="mb-0" style="font-size: 14px;">Email :</h6>
+                                    <h6 class="mb-0" style="white-space: nowrap;">Email :</h6>
                                 </div>
-                                <div>
-                                    <h6 class="mb-0 text-muted" style="font-size: 14px;">Matya032@gmail.com</h6>
+                                <div class="col-8">
+                                    <div class="item text-start">
+                                        <h6 class="mb-0 text-muted">Matya032@gmail.com</h6>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <div class="d-flex align-items-center gap-2">
+                            <div class="row mb-3">
+                                <div class="col-4 d-flex">
                                     <i class="fa-regular fa-pen-to-square edit text-info" role="button"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal"></i>
-                                    <h6 class="mb-0" style="font-size: 14px;">Gender :</h6>
+                                    <h6 class="mb-0" style="white-space: nowrap;">Gender :</h6>
                                 </div>
-                                <div>
-                                    <h6 class="mb-0 text-muted" style="font-size: 14px;">Male</h6>
+                                <div class="col-8">
+                                    <div class="item text-start">
+                                        <h6 class="mb-0 text-muted">Male</h6>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <div class="d-flex align-items-center gap-2">
+                            <div class="row mb-3">
+                                <div class="col-4 d-flex">
                                     <i class="fa-regular fa-pen-to-square edit text-info" role="button"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal"></i>
-                                    <h6 class="mb-0" style="font-size: 14px;">Password :</h6>
+                                    <h6 class="mb-0" style="white-space: nowrap;">Password :</h6>
                                 </div>
-                                <div>
-                                    <h6 class="mb-0 text-muted" style="font-size: 14px;">••••••••</h6>
+                                <div class="col-8">
+                                    <div class="item text-start">
+                                        <h6 class="mb-0 text-muted">••••••••</h6>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <div class="d-flex align-items-center gap-2">
+                            <div class="row mb-3">
+                                <div class="col-4 d-flex">
                                     <i class="fa-regular fa-pen-to-square edit text-info" role="button"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal"></i>
-                                    <h6 class="mb-0" style="font-size: 14px;">Age :</h6>
+                                    <h6 class="mb-0" style="white-space: nowrap;">Age :</h6>
                                 </div>
-                                <div>
-                                    <h6 class="mb-0 text-muted" style="font-size: 14px;">26</h6>
+                                <div class="col-8">
+                                    <div class="item text-start">
+                                        <h6 class="mb-0 text-muted">24</h6>
+                                    </div>
                                 </div>
                             </div>
 
@@ -159,7 +166,7 @@
                             </div>
                             <div class="tab-pane fade" id="authors-tab-pane" role="tabpanel"
                                 aria-labelledby="authors-tab" tabindex="0">
-                               <x-authorsCards />
+                                <x-authorsCards />
                             </div>
                             <div class="tab-pane fade" id="books-tab-pane" role="tabpanel"
                                 aria-labelledby="books-tab" tabindex="0">
