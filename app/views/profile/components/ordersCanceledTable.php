@@ -10,15 +10,25 @@
             </tr>
         </thead>
         <tbody>
+            @empty($orders['canceled']['data'])
             <tr>
-                <th scope="row">1</th>
-                <td>John Doe</td>
-                <td>$1,500</td>
-                <td>
-                    <span class="badge text-bg-danger">Canceled</span>
-                </td>
-                <td>2024-03-01</td>
+                <td colspan="5" class="text-center table-danger">No canceled orders found.</td>
             </tr>
+            @else
+            @foreach ($orders['canceled']['data'] as $canceledOrder)
+            <tr>
+                <th scope="row">{{ $canceledOrder['id'] }}</th>
+                <td>{{ $canceledOrder['customer_name'] }}</td>
+                <td>{{ $canceledOrder['total_price'] }}</td>
+                <td>
+                    <a href="#">See Details</a>
+                </td>
+                <td>{{ $canceledOrder['created_at'] }}</td>
+            </tr>
+            @endforeach
+            @endempty
         </tbody>
     </table>
 </div>
+
+{{ preparePagination($orders['canceled']['totalPages'], $orders['canceled']['currentPage'], 'orders_canceled') }}

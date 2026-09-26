@@ -27,7 +27,7 @@ class Validation
                     } else if ($rule[0] === "exists") {
                         $this->validateExists($field, $value, $rule[1], $rule[2]);
                     } else if ($rule[0] === "unique") {
-                        $this->validateUnique($field, $value, $rule[1]);
+                        $this->validateUnique($field, $value, $rule[1], $rule[2] ?? null);
                     }
                 }
             }
@@ -66,15 +66,19 @@ class Validation
         }
     }
 
-    private function validateUnique(string $field, mixed $value, string $table): void
+    private function validateUnique(string $field, mixed $value, string $table, ?int $exceptId = null): void
     {
         if (empty($value)) {
             return;
         }
 
         $DB = Database::getConnection();
-        $stmt = $DB->prepare("SELECT * FROM {$table} WHERE {$field} = :value");
-        $stmt->execute(['value' => $value]);
+        $subQuery = "";
+        if ($exceptId !== null) {
+            $subQuery = " AND id != :exceptId";
+        }
+        $stmt = $DB->prepare("SELECT * FROM {$table} WHERE {$field} = :value {$subQuery}");
+        $stmt->execute(['value' => $value, 'exceptId' => $exceptId]);
         $result = $stmt->fetch();
 
         if (!empty($result)) {

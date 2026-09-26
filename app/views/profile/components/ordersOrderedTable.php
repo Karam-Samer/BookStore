@@ -1,3 +1,5 @@
+
+
 <div class="table-responsive">
     <table class="table table-info table-striped table-hover align-middle">
         <thead>
@@ -11,19 +13,29 @@
             </tr>
         </thead>
         <tbody>
+            @empty($orders['ordered']['data'])
             <tr>
-                <th scope="row">1</th>
-                <td>John Doe</td>
-                <td>$1,500</td>
+                <td colspan="6" class="text-center table-danger">No ordered orders found.</td>
+            </tr>
+            @else
+            @foreach ($orders['ordered']['data'] as $orderedOrder)
+            <tr>
+                <th scope="row">{{ $orderedOrder['id'] }}</th>
+                <td>{{ $orderedOrder['customer_name'] }}</td>
+                <td>{{ $orderedOrder['total_price'] }}</td>
                 <td>
-                    <span class="badge text-bg-success">Available</span>
+                    <a href="#">See Details</a>
                 </td>
-                <td>2024-03-01</td>
+                <td>{{ $orderedOrder['created_at'] }}</td>
                 <td>
                     <button class="btn btn-sm btn-danger me-2">Cancel</button>
                     <button class="btn btn-sm btn-success">Done</button>
                 </td>
             </tr>
+            @endforeach
+            @endempty
         </tbody>
     </table>
 </div>
+
+{{ preparePagination($orders['ordered']['totalPages'], $orders['ordered']['currentPage'], 'orders_ordered') }}

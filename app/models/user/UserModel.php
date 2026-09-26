@@ -27,4 +27,21 @@ class UserModel extends Model
             ':gender' => $data['gender']
         ]);
     }
+
+    public static function updateUser(string $column, string $value)
+    {
+
+        $DB = Database::getConnection();
+
+        $userId = auth("id");
+        if ($column === 'password') {
+            $value = password_hash($value, PASSWORD_DEFAULT);
+        }
+
+        $stmt = $DB->prepare("UPDATE users SET {$column} = :value WHERE id = :id");
+        $stmt->execute([
+            ':value' => $value,
+            ':id' => $userId
+        ]);
+    }
 }

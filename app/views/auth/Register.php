@@ -19,20 +19,21 @@
 <body>
     <x-Navbar />
 
-    <!-- {{pr($_SESSION)}} -->
 
     <section id="Register">
         <div class="container my-5">
             <form class="w-25 m-auto" method="POST" action="{{ route('/auth/register') }}">
                 <h1 class="text-center mb-4 text-success">Register</h1>
                 {{ getSessionMsg('_errorMsg', 'danger') }}
-                {{ getSessionMsg('_success', 'success') }}
                 <div class="mb-3">
                     <label for="Role" class="form-label">Role :</label>
                     <select name="role" id="Role" class="form-select">
-                        <option value="" {{oldSelect('role', '')}} hidden></option>
-                        <option value="admin" {{oldSelect('role', 'admin')}}>Admin</option>
-                        <option value="customer" {{oldSelect('role', 'customer', true)}}>Customer</option>
+                        @if (isAuth("admin"))
+                        <option value="admin" {{oldSelect('role', 'admin', true)}}>Admin</option>
+                        @else
+                        <option value="customer" {{oldSelect('role', 'customer', true)}} selected>Customer</option>
+                        @endif
+
                     </select>
                     {{ getError('role') }}
                 </div>

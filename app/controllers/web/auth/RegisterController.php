@@ -16,7 +16,7 @@ class RegisterController extends Controller
         if (Request::input('role') === 'admin' && !isAuth("admin")) {
             back("_errorMsg", "You are not authorized to create an admin account.");
         }
-        
+
         $errors = Request::validate([
             'role' => ['required'],
             'name' => ['required'],
@@ -32,8 +32,7 @@ class RegisterController extends Controller
 
         UserModel::createUser();
 
-        $newRole = Request::input('role');
 
-        back("_success", "New {$newRole} created successfully");
+        redirect("/auth/login");
     }
 }

@@ -12,18 +12,34 @@
                     <a class="nav-link active" aria-current="page" href="{{ route('/') }}">Home</a>
                 </li>
                 <li class="nav-item dropdown">
+                    @if (isAuth("admin"))
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ auth("name") }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('/profile') }}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('/auth/register') }}">Create New Admin</a></li>
+                        <li><a class="dropdown-item" href="{{ route('/auth/logout') }}">Logout</a></li>
+                    </ul>
+                    @else if (isAuth("customer"))
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ auth("name") }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('/profile') }}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('/auth/logout') }}">Logout</a></li>
+                    </ul>
+                    @else
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Account
                     </a>
                     <ul class="dropdown-menu">
-                        @if (isAuth())
-                        <li><a class="dropdown-item" href="{{ route('/profile') }}">Profile</a></li>
-                        <li><a class="dropdown-item" href="{{ route('/auth/logout') }}">Logout</a></li>
-                        @else
                         <li><a class="dropdown-item" href="{{ route('/auth/login') }}">Login</a></li>
                         <li><a class="dropdown-item" href="{{ route('/auth/register') }}">Register</a></li>
-                        @endif
                     </ul>
+                    @endif
                 </li>
             </ul>
         </div>

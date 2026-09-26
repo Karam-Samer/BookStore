@@ -40,7 +40,6 @@ class Route
         $flag = false;
 
         foreach (self::$routes as $route) {
-
             $args = self::matchRoute(BASE_URL . $route['url'], $url);
 
             if ($args !== false) {
@@ -54,7 +53,6 @@ class Route
                 self::handleMiddlewares($route['middlewares']);
 
                 $obj = new $route['controller']();
-
 
                 $obj->{$route['action']}(...$args);
                 return;
@@ -87,7 +85,11 @@ class Route
             if (str_contains($middleware, ":")) {
                 $arr = explode(":", $middleware);
                 $middleware = $arr[0];
-                $args = explode(",", $arr[2]);
+                if (str_contains($arr[1], ",")) {
+                    $args = explode(",", $arr[1]);
+                } else {
+                    $args = [$arr[1]];
+                }
             }
             (new $middleware())->handle(...$args);
         }

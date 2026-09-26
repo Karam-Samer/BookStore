@@ -23,7 +23,7 @@
         <div class="container my-5">
             <form class="w-25 m-auto" method="POST" action="{{ route('/auth/login') }}">
                 <h1 class="text-center mb-4 text-success">Login</h1>
-                {{ getSessionMsg('_errorMsg', 'danger') }}
+                {{ getSessionMsg('_invalid', 'danger') }}
                 <div class="mb-3">
                     <label for="Email" class="form-label">Email :</label>
                     <input type="email" class="form-control" id="Email" name="email" value="{{ old('email') }}">

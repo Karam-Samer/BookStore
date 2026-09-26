@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Model.php';
 
 class AuthModel extends Model
 {
-    public static function login() : bool
+    public static function login(): bool
     {
 
         $DB = Database::getConnection();

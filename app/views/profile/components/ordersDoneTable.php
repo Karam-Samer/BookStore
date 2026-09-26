@@ -10,15 +10,25 @@
             </tr>
         </thead>
         <tbody>
+            @empty($orders['done']['data'])
             <tr>
-                <th scope="row">1</th>
-                <td>John Doe</td>
-                <td>$1,500</td>
-                <td>
-                    <span class="badge text-bg-success">Available</span>
-                </td>
-                <td>2024-03-01</td>
+                <td colspan="5" class="text-center table-danger">No done orders found.</td>
             </tr>
+            @else
+            @foreach ($orders['done']['data'] as $doneOrder)
+            <tr>
+                <th scope="row">{{ $doneOrder['id'] }}</th>
+                <td>{{ $doneOrder['customer_name'] }}</td>
+                <td>{{ $doneOrder['total_price'] }}</td>
+                <td>
+                    <a href="#">See Details</a>
+                </td>
+                <td>{{ $doneOrder['created_at'] }}</td>
+            </tr>
+            @endforeach
+            @endempty
         </tbody>
     </table>
 </div>
+
+{{ preparePagination($orders['done']['totalPages'], $orders['done']['currentPage'], 'orders_done') }}

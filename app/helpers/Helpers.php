@@ -109,3 +109,38 @@ function getSessionMsg(string $key, string $alertName = "success"): string
 
     return $html;
 }
+
+function preparePagination(int $totalPages, int $currentPage, string $type): string
+{
+    if ($totalPages <= 1) {
+        return "";
+    }
+    $prepareLi = "";
+
+    $nextPage = ($currentPage < $totalPages) ? $currentPage + 1 : $totalPages;
+    $isNextDisabled = ($currentPage >= $totalPages) ? "disabled" : "";
+
+    $prevPage = ($currentPage > 1) ? $currentPage - 1 : 1;
+    $isPrevDisabled = ($currentPage <= 1) ? "disabled" : "";
+
+    $profileLink = route("/profile");
+
+    for ($i = 1; $i <= $totalPages; $i++) {
+        $isActive = ($i == $currentPage) ? "active" : "";
+        $prepareLi .= "<li class='page-item {$isActive}'><a class='page-link' href='{$profileLink}?{$type}-page={$i}'>{$i}</a></li>";
+    }
+
+    $pagination = "<nav aria-label='Page navigation example'>
+                    <ul class='pagination'>
+                        <li class='page-item {$isPrevDisabled}'>
+                            <a class='page-link' href='{$profileLink}?{$type}-page={$prevPage}'>Previous</a>
+                        </li>
+                        {$prepareLi}
+                        <li class='page-item {$isNextDisabled}'>
+                            <a class='page-link' href='{$profileLink}?{$type}-page={$nextPage}'>Next</a>
+                        </li>
+                    </ul>
+                </nav>";
+
+    return $pagination;
+}

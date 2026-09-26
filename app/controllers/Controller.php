@@ -6,6 +6,7 @@ class Controller
     {
         extract($data);
 
+
         $filePath = __DIR__ . "/../views/{$viewPath}.php";
         $folderPath = dirname($viewPath);
 
@@ -24,20 +25,26 @@ class Controller
         $fileContent = file_get_contents($filePath);
 
         $patterns = [
-            "var" => '/\{\{\s*\$([A-Za-z][A-Za-z0-9]*)\s*\}\}/',
-            "if-else" => '/\s*@if\s*\(\s*([^)]*\))\s*\)([^@]*)@?(else|endif)?([^@]*)@endif/',
-            "if" => '/\s*@if\s*\(([^)]*)\)((?:[^@])*)@endif/',
+            "var" => '/\{\{\s*\$([^}]*)\s*\}\}/',
+            "if-elseif-else" => '/\s*@if\s*\(\s*([^)]*\))\s*\)([^@]*)@else\s+if\s*\(\s*([^)]*\))\s*\)\s*([^@]*)@else\s*([^@]*)@endif/',
+            "if-else" => '/\s*@if\s*\(\s*([^)]*?\)*)\s*\)([^@]*)@else([^@]*)@endif/',
+            "if" => '/\s*@if\s*\(([^)]*)\)([^@]*)@endif/',
+            "for" => '/\s*@for\s*\(\s*([^)]*)\s*\)\s*([^@]*)@endfor/',
+            "foreach" => '/\s*@foreach\s*\(\s*(.*)\s*\)\s*([^@]*)@endforeach/',
             "function" => '/\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*\}\}/',
             "component" => '/<x-([A-Za-z][A-Za-z0-9_-]*)\s*\/>/',
-            "session" => '/\{\{\s*\$_SESSION\[\'([A-Za-z_][A-Za-z0-9_]*)\'\]\s*\}\}/'
+            "empty-else" => '/@empty\s*\(([^)]*)\)\s*((?:(?!@else)[\s\S])*)@else\s*([^@]*)@endempty/',
         ];
 
         $phpCodes = [
-            "var" => "<?= \$$1'; ?>",
-            "if-else" => '<?php if ($1): ?>$2<?php else: ?>$4<?php endif; ?>',
+            "var" => "<?= \\$$1; ?>",
+            "if-elseif-else" => '<?php if ($1): ?>$2<?php elseif ($3): ?>$4<?php else: ?>$5<?php endif; ?>',
+            "if-else" => '<?php if ($1): ?>$2<?php else: ?>$3<?php endif; ?>',
             "if" => '<?php if ($1): ?>$2<?php endif; ?>',
+            "for" => '<?php for ($1): ?>$2<?php endfor; ?>',
+            "foreach" => '<?php foreach ($1): ?>$2<?php endforeach; ?>',
             "function" => "<?= $1($2); ?>",
-            "session" => "<?= \$_SESSION['$1'] ?? ''; ?>"
+            "empty-else" => '<?php if (empty($1)): ?>$2<?php else: ?>$3<?php endif; ?>',
         ];
 
         foreach ($patterns as $key => $pattern) {
@@ -66,6 +73,7 @@ class Controller
 
     private function component(string $component, string $path): string
     {
+        // pr("/../views/{$path}/components/{$component}.php", true);
         if (file_exists(__DIR__ . "/../views/components/{$component}.php")) {
             $componentPath = __DIR__ . "/../views/components/{$component}.php";
         } else {

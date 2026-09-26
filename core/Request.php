@@ -17,9 +17,9 @@ class Request
         return $allData;
     }
 
-    public static function input(string $key): mixed
+    public static function input(string $key, $default = null): mixed
     {
-        return self::all()[$key] ?? null;
+        return self::all()[$key] ?? $default;
     }
 
     public static function validate(array $rules): array
