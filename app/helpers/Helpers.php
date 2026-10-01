@@ -144,3 +144,9 @@ function preparePagination(int $totalPages, int $currentPage, string $type): str
 
     return $pagination;
 }
+
+
+function authorBio(string $bio): string
+{
+    return (strlen($bio) > 100) ? substr($bio, 0, 100) . "..." : $bio;
+}

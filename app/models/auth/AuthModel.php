@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Model.php';
 
 class AuthModel extends Model
 {
-    public static function login(): bool
+    public static function login(): array
     {
 
         $DB = Database::getConnection();
@@ -13,10 +13,14 @@ class AuthModel extends Model
 
         $stmt = $DB->query("SELECT * FROM users WHERE email = '{$data['email']}'");
         $user = $stmt->fetch();
-        if (!empty($user) && password_verify($data['password'], $user['password'])) {
-            $_SESSION['user'] = $user;
-            return true;
+
+        if ($user['is_banned']) {
+            return ["error" => "User is banned"];
         }
-        return false;
+
+        if (!empty($user) && password_verify($data['password'], $user['password'])) {
+            return $user;
+        }
+        return ["error" => "Wrong email or password"];
     }
 }

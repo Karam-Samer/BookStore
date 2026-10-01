@@ -20,6 +20,10 @@ class Validation
                         $this->validateEmail($field, $value);
                     } else if ($rule === "egPhone") {
                         $this->validateEgPhone($field, $value);
+                    } else if ($rule === "numeric") {
+                        if (!is_numeric($value)) {
+                            $this->addError($field, "{$field} must be a numeric value.");
+                        }
                     }
                 } else if (is_array($rule)) {
                     if ($rule[0] === "min") {

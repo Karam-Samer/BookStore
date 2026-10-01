@@ -6,7 +6,6 @@ class UserController extends Controller
 {
     public function edit(string $type): void
     {
-        header("Content-Type: application/json; charset=UTF-8");
 
         $rules = [
             'role' => ['role' => ['required']],
@@ -16,7 +15,6 @@ class UserController extends Controller
             'phone' => ['phone' => ['required', 'regPhone', ['unique', 'users', auth('id')]]],
             'gender' => ['gender' => ['required']],
         ];
-
         $type = lcfirst($type);
         $value = Request::input($type);
 

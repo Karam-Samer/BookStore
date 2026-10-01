@@ -177,3 +177,27 @@ api/
                     (POST) removeItem
 
 
+
+
+        // $patterns = [
+        //     "var" => '/\{\{\s*\$([^}]*)\s*\}\}/',
+        //     "if-elseif-else" => '/\s*@if\s*\(\s*([^)]*\))\s*\)([^@]*)@else\s+if\s*\(\s*([^)]*\))\s*\)\s*([^@]*)@else\s*([^@]*)@endif/',
+        //     "if-else" => '/\s*@if\s*\(\s*([^)]*?\)*)\s*\)([^@]*)@else([^@]*)@endif/',
+        //     "if" => '/\s*@if\s*\(([^)]*)\)([^@]*)@endif/',
+        //     "for" => '/\s*@for\s*\(\s*([^)]*)\s*\)\s*([^@]*)@endfor/',
+        //     "foreach" => '/\s*@foreach\s*\(\s*(.*)\s*\)\s*([^@]*)@endforeach/',
+        //     "function" => '/\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*\}\}/',
+        //     "component" => '/<x-([A-Za-z][A-Za-z0-9_-]*)\s*\/>/',
+        //     "empty-else" => '/@empty\s*\(([^)]*)\)\s*((?:(?!@else)[\s\S])*)@else\s*([^@]*)@endempty/',
+        // ];
+
+        // $phpCodes = [
+        //     "var" => "<?= \\$$1; ?>",
+        //     "if-elseif-else" => '<?php if ($1): ?>$2<?php elseif ($3): ?>$4<?php else: ?>$5<?php endif; ?>',
+        //     "if-else" => '<?php if ($1): ?>$2<?php else: ?>$3<?php endif; ?>',
+        //     "if" => '<?php if ($1): ?>$2<?php endif; ?>',
+        //     "for" => '<?php for ($1): ?>$2<?php endfor; ?>',
+        //     "foreach" => '<?php foreach ($1): ?>$2<?php endforeach; ?>',
+        //     "function" => "<?= $1($2); ?>",
+        //     "empty-else" => '<?php if (empty($1)): ?>$2<?php else: ?>$3<?php endif; ?>',
+        // ];

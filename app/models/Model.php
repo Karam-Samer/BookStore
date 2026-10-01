@@ -18,6 +18,11 @@ class Model
             $subQuery = "WHERE ";
             $counter = 1;
             foreach ($wheres as $where) {
+                if ($where[1] === 'BETWEEN') {
+                    $subQuery .= "{$where[0]} {$where[1]} {$where[2]} ";
+                    $counter++;
+                    continue;
+                }
                 if ($counter > 1) {
                     if (isset($where[3])) {
                         $subQuery .= "{$where[3]} ";

@@ -9,7 +9,9 @@
                 <th scope="col">Total Price</th>
                 <th scope="col">Details</th>
                 <th scope="col">Created At</th>
+                @if (isAuth("admin"))
                 <th scope="col">Options</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -27,10 +29,12 @@
                     <a href="#">See Details</a>
                 </td>
                 <td>{{ $orderedOrder['created_at'] }}</td>
+                @if (isAuth("admin"))
                 <td>
                     <button class="btn btn-sm btn-danger me-2">Cancel</button>
                     <button class="btn btn-sm btn-success">Done</button>
                 </td>
+                @endif
             </tr>
             @endforeach
             @endempty

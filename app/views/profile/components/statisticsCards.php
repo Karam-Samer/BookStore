@@ -9,6 +9,10 @@
         </div>
     </div>
 
+
+
+    @if (isAuth("admin"))
+
     <div class="col-lg-4 mb-3">
         <div class="item">
             <div class="card text-center p-3 rounded-4 border-0 bg-primary-subtle text-primary-emphasis">
@@ -38,6 +42,18 @@
             </div>
         </div>
     </div>
+
+    @else if (isAuth("customer"))
+    <div class="col-lg-4 mb-3">
+        <div class="item">
+            <div class="card text-center p-3 rounded-4 border-0 bg-primary-subtle text-primary-emphasis">
+                <i class="fa-solid fa-book m-auto"></i>
+                <h6 class="my-3">Total Bought Books</h6>
+                <p class="text-success mb-0 fw-bolder">{{ $total['boughtBooks'] }}</p>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <div class="col-lg-4 mb-3">
         <div class="item">

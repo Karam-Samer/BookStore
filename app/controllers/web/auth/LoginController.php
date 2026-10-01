@@ -21,12 +21,16 @@ class LoginController extends Controller
             back();
         }
 
-        if (AuthModel::login()) {
-            $_SESSION['_old'] = [];
-            session_regenerate_id(true);
-            redirect("/profile");
+        $user = AuthModel::login();
+        if (isset($user['error'])) {
+            back("_invalid", $user['error']);
         }
-        back("_invalid", "Invalid email or password");
+        unset($user['password']);
+        unset($_SESSION['user']['error']);
+        $_SESSION['user'] = $user;
+        $_SESSION['_old'] = [];
+        session_regenerate_id(true);
+        redirect("/profile");
     }
 
     public function logout()

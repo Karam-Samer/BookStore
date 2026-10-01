@@ -9,10 +9,15 @@ class ProfileController extends Controller
     public function index(): void
     {
         $role = ucfirst(auth("role"));
-        $data = $this->getAdminData();
-        $data['role'] = $role;
+        if (isAuth("admin")) {
+            $data = $this->getAdminData();
+        } else if (isAuth("customer")) {
+            $data = $this->getCustomerData();
+        }
+
+
         $data['currentPage'] = $_GET['page'] ?? 1;
-        // pr($data, true);
+
         $this->view('Profile/profile', $data);
     }
 
@@ -34,9 +39,9 @@ class ProfileController extends Controller
         $authors = DBModel::getDataOfTable('authors', page: Request::input('authors-page', 1));
         $books = BookModel::getDataOfBooks(page: Request::input('books-page', 1));
         $orders = [
-            'ordered' => OrderModel::getDataOfOrders([['status', '=', 'ordered']], page: Request::input('orders-ordered-page', 1)),
-            'canceled' => OrderModel::getDataOfOrders([['status', '=', 'canceled']], page: Request::input('orders-canceled-page', 1)),
-            'done' => OrderModel::getDataOfOrders([['status', '=', 'done']], page: Request::input('orders-done-page', 1)),
+            'ordered' => OrderModel::getDataOfOrders([['status', '=', 'ordered']], page: Request::input('orders_ordered-page', 1)),
+            'canceled' => OrderModel::getDataOfOrders([['status', '=', 'canceled']], page: Request::input('orders_canceled-page', 1)),
+            'done' => OrderModel::getDataOfOrders([['status', '=', 'done']], page: Request::input('orders_done-page', 1)),
         ];
 
         return [
@@ -44,6 +49,31 @@ class ProfileController extends Controller
             'admins' => $admins,
             'customers' => $customers,
             'authors' => $authors,
+            'books' => $books,
+            'orders' => $orders
+        ];
+    }
+
+    private function getCustomerData(): array
+    {
+        $total = [
+            'books' => DBModel::getTotalOfTable('books'),
+            'boughtBooks' => DBModel::getTotalOfCustomerBooks(),
+            'orders' => [
+                'ordered' => DBModel::getTotalOfTable('orders', [['status', '=', 'ordered'], ['customer_id', '=', auth('id')]]),
+                'canceled' => DBModel::getTotalOfTable('orders', [['status', '=', 'canceled'], ['customer_id', '=', auth('id')]]),
+                'done' => DBModel::getTotalOfTable('orders', [['status', '=', 'done'], ['customer_id', '=', auth('id')]]),
+            ]
+        ];
+        $books = BookModel::getDataOfBooks(page: Request::input('books-page', 1));
+        $orders = [
+            'ordered' => OrderModel::getDataOfOrders([['status', '=', 'ordered'], ['customer_id', '=', auth('id')]], Request::input('orders_ordered-page', 1)),
+            'canceled' => OrderModel::getDataOfOrders([['status', '=', 'canceled'], ['customer_id', '=', auth('id')]], Request::input('orders_canceled-page', 1)),
+            'done' => OrderModel::getDataOfOrders([['status', '=', 'done'], ['customer_id', '=', auth('id')]], Request::input('orders_done-page', 1)),
+        ];
+
+        return [
+            'total' => $total,
             'books' => $books,
             'orders' => $orders
         ];

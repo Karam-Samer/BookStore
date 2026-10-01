@@ -27,10 +27,31 @@ class Request
         $validator = new Validation(self::all(), $rules);
 
         $errors = $validator->validate();
-        
+
         $_SESSION['_errors'] = $errors;
         $_SESSION['_old'] = self::all();
 
         return $errors;
+    }
+
+    public static function has(array $keys): bool
+    {
+        $allData = self::all();
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $allData)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static function hasFile(string $fileName): bool
+    {
+        return isset($_FILES[$fileName]) && $_FILES[$fileName]['tmp_name'] !== '';
+    }
+
+    public static function file(string $fileName): ?array
+    {
+        return $_FILES[$fileName] ?? null;
     }
 }

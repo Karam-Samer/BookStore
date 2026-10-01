@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile | {{ $role }}</title>
+    <title>Profile | {{ auth('role') }}</title>
     <link rel="stylesheet" href="{{ asset('CSS/plugins/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('CSS/plugins/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('CSS/global.css') }}">
@@ -13,6 +13,7 @@
     <script src="{{ asset('JS/jquery.js') }}"></script>
     <script src="{{ asset('JS/alert.js') }}"></script>
     <script src="{{ asset('JS/bootstrap.js') }}"></script>
+    <script src="{{ asset('JS/profile/functions.js') }}"></script>
     <script src="{{ asset('JS/profile/profile.js') }}"></script>
 </head>
 
@@ -91,7 +92,6 @@
                 <div class="col-lg-9 bg-body rounded-5 p-4">
                     <div class="container">
 
-                        <!-- Nav Tabs -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="statistics-tab" data-bs-toggle="tab"
@@ -100,6 +100,7 @@
                                     Statistics
                                 </button>
                             </li>
+                            @if (isAuth("admin"))
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="admins-tab" data-bs-toggle="tab"
                                     data-bs-target="#admins-tab-pane" type="button" role="tab"
@@ -121,6 +122,7 @@
                                     Authors
                                 </button>
                             </li>
+                            @endif
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="books-tab" data-bs-toggle="tab"
                                     data-bs-target="#books-tab-pane" type="button" role="tab"
@@ -154,7 +156,7 @@
                                 aria-labelledby="statistics-tab" tabindex="0">
                                 <x-statisticsCards />
                             </div>
-
+                            @if (isAuth("admin"))
                             <div class="tab-pane fade" id="admins-tab-pane" role="tabpanel"
                                 aria-labelledby="admins-tab" tabindex="0">
                                 <x-adminsCards />
@@ -168,6 +170,7 @@
                                 aria-labelledby="authors-tab" tabindex="0">
                                 <x-authorsCards />
                             </div>
+                            @endif
                             <div class="tab-pane fade" id="books-tab-pane" role="tabpanel"
                                 aria-labelledby="books-tab" tabindex="0">
                                 <x-booksCards />

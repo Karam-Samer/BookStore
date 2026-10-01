@@ -9,9 +9,11 @@ class AuthMiddleware implements Middleware
         if (!isset($_SESSION['user'])) {
             redirect("/auth/login");
         }
+
         if (empty($roles)) {
             return;
         }
+
         $userRole = $_SESSION['user']['role'];
         if (!in_array($userRole, $roles)) {
             Response::error("Forbidden", 403);

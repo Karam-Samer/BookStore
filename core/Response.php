@@ -11,7 +11,10 @@ class Response
 
     public static function json(array $data, string $msg = "", int $status = 200): void
     {
+        header("Content-Type: application/json; charset=UTF-8");
+
         http_response_code($status);
+
         echo json_encode([
             "message" => $msg,
             "data" => $data

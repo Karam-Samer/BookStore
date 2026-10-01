@@ -23,29 +23,48 @@ class Controller
     private function patternsExecute(string $filePath, string $folderPath): string
     {
         $fileContent = file_get_contents($filePath);
-
         $patterns = [
             "var" => '/\{\{\s*\$([^}]*)\s*\}\}/',
-            "if-elseif-else" => '/\s*@if\s*\(\s*([^)]*\))\s*\)([^@]*)@else\s+if\s*\(\s*([^)]*\))\s*\)\s*([^@]*)@else\s*([^@]*)@endif/',
-            "if-else" => '/\s*@if\s*\(\s*([^)]*?\)*)\s*\)([^@]*)@else([^@]*)@endif/',
-            "if" => '/\s*@if\s*\(([^)]*)\)([^@]*)@endif/',
-            "for" => '/\s*@for\s*\(\s*([^)]*)\s*\)\s*([^@]*)@endfor/',
-            "foreach" => '/\s*@foreach\s*\(\s*(.*)\s*\)\s*([^@]*)@endforeach/',
-            "function" => '/\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*\}\}/',
+            "if" => '/\s*@if\s*\(\s*(.*?)\s*\)\s*$/m',
+            "else" => '/\s*@else\s*$/m',
+            "elseif" => '/\s*@else if\s*\(\s*(.*?)\s*\)\s*$/m',
+            "endif" => '/\s*@endif\s*$/m',
+            "for" => '/\s*@for\s*\(\s*(.*?)\s*\)\s*$/m',
+            "endfor" => '/\s*@endfor\s*$/m',
+            "foreach" => '/\s*@foreach\s*\(\s*(.*?)\s*\)\s*$/m',
+            "endforeach" => '/\s*@endforeach\s*$/m',
+            "function" => '/\{\{\s*(.*?)\s*\}\}/',
+            "empty" => '/\s*@empty\s*\(\s*(.*?)\s*\)\s*$/m',
+            "endempty" => '/\s*@endempty\s*$/m',
             "component" => '/<x-([A-Za-z][A-Za-z0-9_-]*)\s*\/>/',
-            "empty-else" => '/@empty\s*\(([^)]*)\)\s*((?:(?!@else)[\s\S])*)@else\s*([^@]*)@endempty/',
+
+            // "if-elseif-else" => '/\s*@if\s*\(\s*([^)]*\))\s*\)([^@]*)@else\s+if\s*\(\s*([^)]*\))\s*\)\s*([^@]*)@else\s*([^@]*)@endif/',
+            // "if-else" => '/\s*@if\s*\(\s*([^)]*?\)*)\s*\)([^@]*)@else([^@]*)@endif/',
+            // "if" => '/\s*@if\s*\(([^)]*)\)([^@]*)@endif/',
+            // "for" => '/\s*@for\s*\(\s*([^)]*)\s*\)\s*([^@]*)@endfor/',
+            // "foreach" => '/\s*@foreach\s*\(\s*(.*)\s*\)\s*([^@]*)@endforeach/',
+            // "function" => '/\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*\}\}/',
+            // "empty-else" => '/@empty\s*\(([^)]*)\)\s*((?:(?!@else)[\s\S])*)@else\s*([^@]*)@endempty/',
         ];
 
         $phpCodes = [
             "var" => "<?= \\$$1; ?>",
-            "if-elseif-else" => '<?php if ($1): ?>$2<?php elseif ($3): ?>$4<?php else: ?>$5<?php endif; ?>',
-            "if-else" => '<?php if ($1): ?>$2<?php else: ?>$3<?php endif; ?>',
-            "if" => '<?php if ($1): ?>$2<?php endif; ?>',
-            "for" => '<?php for ($1): ?>$2<?php endfor; ?>',
-            "foreach" => '<?php foreach ($1): ?>$2<?php endforeach; ?>',
-            "function" => "<?= $1($2); ?>",
-            "empty-else" => '<?php if (empty($1)): ?>$2<?php else: ?>$3<?php endif; ?>',
+            "if" => "<?php if ($1): ?>",
+            "else" => "<?php else: ?>",
+            "elseif" => "<?php elseif ($1): ?>",
+            "endif" => "<?php endif; ?>",
+            "for" => "<?php for ($1): ?>",
+            "endfor" => "<?php endfor; ?>",
+            "foreach" => "<?php foreach ($1): ?>",
+            "endforeach" => "<?php endforeach; ?>",
+            "function" => "<?php echo $1; ?>",
+            "empty" => "<?php if (empty($1)): ?>",
+            "endempty" => "<?php endif; ?>",
+
         ];
+
+
+
 
         foreach ($patterns as $key => $pattern) {
 

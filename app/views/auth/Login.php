@@ -19,6 +19,7 @@
 <body>
     <x-Navbar />
 
+
     <section id="Login">
         <div class="container my-5">
             <form class="w-25 m-auto" method="POST" action="{{ route('/auth/login') }}">

@@ -13,7 +13,7 @@ class create_orders_table
             CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES users(id),
             status ENUM('pending', 'ordered', 'cancelled', 'done') NOT NULL DEFAULT 'pending',
             cancel_reason TEXT NULL,
-            total_price DECIMAL(10, 2) NOT NULL,
+            total_price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )");

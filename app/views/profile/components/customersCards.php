@@ -52,9 +52,9 @@
                 </div>
                 <div class="buttons">
                     @if ($customer['is_banned'])
-                    <button class="btn btn-success w-100">Unban</button>
+                    <button class="btn btn-success w-100" onclick="banUser(this, `{{ $customer['id'] }}`, 'unban')">Unban</button>
                     @else
-                    <button class="btn btn-danger w-100">Ban</button>
+                    <button class="btn btn-danger w-100" onclick="banUser(this, `{{ $customer['id'] }}`, 'ban')">Ban</button>
                     @endif
                 </div>
             </div>
