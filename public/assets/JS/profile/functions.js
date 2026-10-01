@@ -191,3 +191,108 @@ function Toast(type, message) {
   });
 }
 
+function orderTable(orders, userType = "user") {
+  console.log(userType);
+  let tableBody = "",
+    tableRows = "";
+  newBody = ``;
+  newRow = ``;
+  if (userType === "admin") {
+    newBody = `<td>
+                    <button class="btn btn-sm btn-danger me-2">Cancel</button>
+                    <button class="btn btn-sm btn-success">Done</button>
+                </td>`;
+    newRow = `<th scope="col">Options</th>`;
+  }
+
+  tableRows = `
+  <table class="table table-info table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Total Price</th>
+                <th scope="col">Details</th>
+                <th scope="col">Created At</th>
+                ${newRow}
+            </tr>
+            </thead>
+            <tbody>`;
+
+  orders.forEach((order) => {
+    tableBody += `
+    <tr>
+      <th scope="row">${order["id"]}</th>
+      <td>${order["customer_name"]}</td>
+                <td>${order["total_price"]}</td>
+                <td>
+                    <a href="#">See Details</a>
+                </td>
+                <td>${order["created_at"]}</td>
+                ${newBody}
+            </tr>
+            `;
+  });
+
+  tableBody += `</tbody> </table>`;
+  html = tableRows + tableBody;
+  return html;
+}
+
+function banUser(that, userId, text) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: `Yes, ${text} it!`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "profile/banUser",
+        data: { userId: userId },
+        dataType: "json",
+        success: function (response) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+          let button = $(that);
+          if (text === "ban") {
+            button.closest(".card").prepend(`
+                        <span class="badge text-bg-danger position-absolute" style="top: 10px; right: 10px;">Banned</span>
+                    `);
+          } else {
+            button.closest(".card").find(".badge").remove();
+          }
+          button.attr(
+            "onclick",
+            `banUser(this, ${userId}, '${text === "ban" ? "unban" : "ban"}')`,
+          );
+          button.text(text === "ban" ? "Unban" : "Ban");
+          button.toggleClass("btn-danger btn-success");
+        },
+        error: function (response) {
+          console.log(response);
+          console.log(response.responseJSON);
+          Toast("error", response.responseJSON.message);
+        },
+      });
+    }
+  });
+}
+
+function openAddBookModal(that, authorId, authorName) {
+  that.blur();
+  $("#AuthorId option").val(authorId).text(authorName);
+  $("#BookAuthorId").val(authorId);
+
+  const modal = new bootstrap.Modal($("#addBookModal").get(0));
+  modal.show();
+}
+
+

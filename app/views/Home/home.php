@@ -11,9 +11,8 @@
     <link rel="stylesheet" href="{{ asset('CSS/home/index.css') }}">
 
     <!-- JS -->
-
-    <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('JS/plugins/jquery.js') }}"></script>
+    <script src="{{ asset('JS/plugins/bootstrap.js') }}"></script>
 
 </head>
 

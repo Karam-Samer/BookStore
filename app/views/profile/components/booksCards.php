@@ -108,6 +108,12 @@
                             <h6>{{ $book['stock'] }}</h6>
                         </div>
                     </div>
+                    @if (isAuth("customer"))
+                    <div class="input-group">
+                        <input type="number" class="form-control" placeholder="Quantity" id="bookQuantity-{{ $book['id'] }}" name="bookQuantity">
+                        <button class="btn btn-outline-success" type="button" id="button-addon2">Add to Cart</button>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

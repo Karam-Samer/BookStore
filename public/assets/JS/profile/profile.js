@@ -163,14 +163,7 @@ $(document).on("click", "#books-tab-pane .page-link", function (e) {
     },
   });
 });
-function openAddBookModal(that, authorId, authorName) {
-  that.blur();
-  $("#AuthorId option").val(authorId).text(authorName);
-  $("#BookAuthorId").val(authorId);
 
-  const modal = new bootstrap.Modal($("#addBookModal").get(0));
-  modal.show();
-}
 
 $(document).on("submit", "#addBookForm", function (e) {
   e.preventDefault();
@@ -200,85 +193,128 @@ $(document).on("submit", "#addBookForm", function (e) {
   });
 });
 
-function banUser(that, userId, text) {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: `Yes, ${text} it!`,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-        type: "POST",
-        url: "profile/banUser",
-        data: { userId: userId },
-        dataType: "json",
-        success: function (response) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-          let button = $(that);
-          if (text === "ban") {
-            button.closest(".card").prepend(`
-                        <span class="badge text-bg-danger position-absolute" style="top: 10px; right: 10px;">Banned</span>
-                    `);
-          } else {
-            button.closest(".card").find(".badge").remove();
-          }
-          button.attr(
-            "onclick",
-            `banUser(this, ${userId}, '${text === "ban" ? "unban" : "ban"}')`,
-          );
-          button.text(text === "ban" ? "Unban" : "Ban");
-          button.toggleClass("btn-danger btn-success");
-        },
-        error: function (response) {
-          console.log(response);
-          console.log(response.responseJSON);
-          Toast("error", response.responseJSON.message);
-        },
-      });
-    }
+
+
+$(document).on("click", "#orders_ordered-tab-pane .page-link", function (e) {
+  e.preventDefault();
+  type = "";
+  if (
+    $("#orders_ordered-tab-pane > .table-responsive thead tr th").length == 6
+  ) {
+    type = "admin";
+  } else {
+    type = "user";
+  }
+  console.log(type);
+
+  let page = $(this).attr("href").split("=")[1];
+  $.ajax({
+    type: "POST",
+    url: "profile/pagination/ordered",
+    data: { page: page },
+    success: function (response) {
+      console.log(response);
+      let orders = response.data.data.data,
+        currentPage = response.data.data.currentPage,
+        totalPages = response.data.data.totalPages;
+
+      $("#orders_ordered-tab-pane > .table-responsive").html("");
+      if (orders.length == 0) {
+        $("#orders_ordered-tab-pane > .table-responsive tbody").html(
+          `<div class="alert alert-warning text-center" role="alert">
+              No orders found.
+            </div>`,
+        );
+        return;
+      }
+      let ordersHtml = orderTable(orders, type);
+      $("#orders_ordered-tab-pane > .table-responsive").html(ordersHtml);
+
+      $("#orders_ordered-tab-pane > nav ").remove();
+
+      $("#orders_ordered-tab-pane").append(
+        preparePagination(totalPages, currentPage, "orders_ordered"),
+      );
+    },
+    error: function (response) {
+      Toast("error", response.responseJSON.data.message);
+    },
   });
-}
+});
 
-// $(document).on("click", "#orders_ordered-tab-pane .page-link", function (e) {
-//   e.preventDefault();
-//   let page = $(this).attr("href").split("=")[1];
-//   $.ajax({
-//     type: "POST",
-//     url: "profile/pagination/ordered",
-//     data: { page: page },
-//     success: function (response) {
-//       console.log(response);
-//       let orders = response.data.data.data,
-//         currentPage = response.data.data.currentPage,
-//         totalPages = response.data.data.totalPages;
-//       $("#orders_ordered-tab-pane > .table-responsive").html("");
-//       if (orders.length == 0) {
-//         $("#orders_ordered-tab-pane > .table-responsive").html(
-//           `<div class="alert alert-warning text-center" role="alert">
-//               No orders found.
-//             </div>`,
-//         );
-//         return;
-//       }
-//       let ordersHtml = orderTable(orders,"ordered");
-//       $("#orders_ordered-tab-pane > .table-responsive").html(ordersHtml);
+$(document).on("click", "#orders_cancelled-tab-pane .page-link", function (e) {
+  e.preventDefault();
 
-//       $("#orders_ordered-tab-pane > nav ").remove();
+  let page = $(this).attr("href").split("=")[1];
+  $.ajax({
+    type: "POST",
+    url: "profile/pagination/ordered",
+    data: { page: page },
+    success: function (response) {
+      console.log(response);
+      let orders = response.data.data.data,
+        currentPage = response.data.data.currentPage,
+        totalPages = response.data.data.totalPages;
 
-//       $("#orders_ordered-tab-pane").append(
-//         preparePagination(totalPages, currentPage, "orders_ordered"),
-//       );
-//     },
-//     error: function (response) {
-//       Toast("error", response.responseJSON.data.message);
-//     },
-//   });
-// });
+      $("#orders_cancelled-tab-pane > .table-responsive").html("");
+      if (orders.length == 0) {
+        $("#orders_cancelled-tab-pane > .table-responsive tbody").html(
+          `<div class="alert alert-warning text-center" role="alert">
+              No orders found.
+            </div>`,
+        );
+        return;
+      }
+      let ordersHtml = orderTable(orders);
+      $("#orders_cancelled-tab-pane > .table-responsive").html(ordersHtml);
+
+      $("#orders_cancelled-tab-pane > nav ").remove();
+
+      $("#orders_cancelled-tab-pane").append(
+        preparePagination(totalPages, currentPage, "orders_cancelled"),
+      );
+    },
+    error: function (response) {
+      Toast("error", response.responseJSON.data.message);
+    },
+  });
+});
+$(document).on("click", "#orders_done-tab-pane .page-link", function (e) {
+  e.preventDefault();
+
+  let page = $(this).attr("href").split("=")[1];
+  $.ajax({
+    type: "POST",
+    url: "profile/pagination/ordered",
+    data: { page: page },
+    success: function (response) {
+      console.log(response);
+      let orders = response.data.data.data,
+        currentPage = response.data.data.currentPage,
+        totalPages = response.data.data.totalPages;
+
+      $("#orders_done-tab-pane > .table-responsive").html("");
+      if (orders.length == 0) {
+        $("#orders_done-tab-pane > .table-responsive tbody").html(
+          `<div class="alert alert-warning text-center" role="alert">
+              No orders found.
+            </div>`,
+        );
+        return;
+      }
+      let ordersHtml = orderTable(orders);
+      $("#orders_done-tab-pane > .table-responsive").html(ordersHtml);
+
+      $("#orders_done-tab-pane > nav ").remove();
+
+      $("#orders_done-tab-pane").append(
+        preparePagination(totalPages, currentPage, "orders_done"),
+      );
+    },
+    error: function (response) {
+      Toast("error", response.responseJSON.data.message);
+    },
+  });
+});
+
+

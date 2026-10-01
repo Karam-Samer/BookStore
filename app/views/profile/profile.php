@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="{{ asset('CSS/global.css') }}">
     <link rel="stylesheet" href="{{ asset('CSS/profile/profile.css') }}">
 
-    <script src="{{ asset('JS/jquery.js') }}"></script>
-    <script src="{{ asset('JS/alert.js') }}"></script>
-    <script src="{{ asset('JS/bootstrap.js') }}"></script>
+    <script src="{{ asset('JS/plugins/jquery.js') }}"></script>
+    <script src="{{ asset('JS/plugins/alert.js') }}"></script>
+    <script src="{{ asset('JS/plugins/bootstrap.js') }}"></script>
     <script src="{{ asset('JS/profile/functions.js') }}"></script>
     <script src="{{ asset('JS/profile/profile.js') }}"></script>
 </head>
@@ -92,7 +92,7 @@
                 <div class="col-lg-9 bg-body rounded-5 p-4">
                     <div class="container">
 
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <ul class="nav nav-tabs position-relative " id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="statistics-tab" data-bs-toggle="tab"
                                     data-bs-target="#statistics-tab-pane" type="button" role="tab"
@@ -148,6 +148,15 @@
                                     </ul>
                                 </div>
                             </li>
+                            @if (isAuth("customer"))
+                            <button type="button" class="btn bg-primary-subtle text-primary-emphasis position-absolute top-0 end-0 ">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    99+
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
+                            @endif
                         </ul>
 
                         <div class="tab-content mt-3" id="myTabContent">
