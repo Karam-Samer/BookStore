@@ -28,11 +28,11 @@
                 <div class="mb-3">
                     <label for="Role" class="form-label">Role :</label>
                     <select name="role" id="Role" class="form-select">
-                        @if (isAuth("admin"))
+                        @auth("admin")
                         <option value="admin" {{oldSelect('role', 'admin', true)}}>Admin</option>
                         @else
                         <option value="customer" {{oldSelect('role', 'customer', true)}} selected>Customer</option>
-                        @endif
+                        @endauth
 
                     </select>
                     {{ getError('role') }}

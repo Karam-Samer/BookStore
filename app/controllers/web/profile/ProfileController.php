@@ -3,6 +3,7 @@ require_once __DIR__ . "/../../Controller.php";
 require_once __DIR__ . "/../../../models/DB/DBModel.php";
 require_once __DIR__ . "/../../../models/book/BookModel.php";
 require_once __DIR__ . "/../../../models/order/OrderModel.php";
+require_once __DIR__ . "/../../../models/cart/CartModel.php";
 
 class ProfileController extends Controller
 {
@@ -59,6 +60,7 @@ class ProfileController extends Controller
         $total = [
             'books' => DBModel::getTotalOfTable('books'),
             'boughtBooks' => DBModel::getTotalOfCustomerBooks(),
+            'totalCartItems' => CartModel::totalItemsInCart(),
             'orders' => [
                 'ordered' => DBModel::getTotalOfTable('orders', [['status', '=', 'ordered'], ['customer_id', '=', auth('id')]]),
                 'canceled' => DBModel::getTotalOfTable('orders', [['status', '=', 'canceled'], ['customer_id', '=', auth('id')]]),

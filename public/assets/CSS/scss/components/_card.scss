@@ -1,0 +1,18 @@
+@use "./../abstracts/index" as *;
+.authorCard {
+  img {
+    border-radius: 100%;
+  }
+  .ulContainer {
+    border-top: 1px solid $secondary;
+    border-bottom: 1px solid $secondary;
+
+    ul {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      text-align: center;
+    }
+  }
+}

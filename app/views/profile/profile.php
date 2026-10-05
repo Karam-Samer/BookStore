@@ -7,13 +7,18 @@
     <title>Profile | {{ auth('role') }}</title>
     <link rel="stylesheet" href="{{ asset('CSS/plugins/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('CSS/plugins/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('CSS/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('CSS/profile/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/style.css') }}">
 
     <script src="{{ asset('JS/plugins/jquery.js') }}"></script>
     <script src="{{ asset('JS/plugins/alert.js') }}"></script>
     <script src="{{ asset('JS/plugins/bootstrap.js') }}"></script>
     <script src="{{ asset('JS/profile/functions.js') }}"></script>
+    @auth("customer")
+    <script src="{{ asset('JS/profile/customer/cart.js') }}"></script>
+    <script src="{{ asset('JS/profile/customer/orders.js') }}"></script>
+    @elseauth("admin")
+    <script src="{{ asset('JS/profile/admin/admin.js') }}"></script>
+    @endauth
     <script src="{{ asset('JS/profile/profile.js') }}"></script>
 </head>
 
@@ -100,7 +105,7 @@
                                     Statistics
                                 </button>
                             </li>
-                            @if (isAuth("admin"))
+                            @auth("admin")
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="admins-tab" data-bs-toggle="tab"
                                     data-bs-target="#admins-tab-pane" type="button" role="tab"
@@ -122,7 +127,7 @@
                                     Authors
                                 </button>
                             </li>
-                            @endif
+                            @endauth
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="books-tab" data-bs-toggle="tab"
                                     data-bs-target="#books-tab-pane" type="button" role="tab"
@@ -148,15 +153,15 @@
                                     </ul>
                                 </div>
                             </li>
-                            @if (isAuth("customer"))
-                            <button type="button" class="btn bg-primary-subtle text-primary-emphasis position-absolute top-0 end-0 ">
+                            @auth("customer")
+                            <button type="button" class="btn bg-primary-subtle text-primary-emphasis position-absolute top-0 end-0 " onclick="getCartItems()">
                                 <i class="fa-solid fa-cart-shopping"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    99+
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
+                                    {{ $total['totalCartItems'] }}
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             </button>
-                            @endif
+                            @endauth
                         </ul>
 
                         <div class="tab-content mt-3" id="myTabContent">
@@ -165,7 +170,7 @@
                                 aria-labelledby="statistics-tab" tabindex="0">
                                 <x-statisticsCards />
                             </div>
-                            @if (isAuth("admin"))
+                            @auth("admin")
                             <div class="tab-pane fade" id="admins-tab-pane" role="tabpanel"
                                 aria-labelledby="admins-tab" tabindex="0">
                                 <x-adminsCards />
@@ -179,7 +184,7 @@
                                 aria-labelledby="authors-tab" tabindex="0">
                                 <x-authorsCards />
                             </div>
-                            @endif
+                            @endauth
                             <div class="tab-pane fade" id="books-tab-pane" role="tabpanel"
                                 aria-labelledby="books-tab" tabindex="0">
                                 <x-booksCards />
@@ -226,35 +231,19 @@
         </div>
     </div>
 
-    <!-- <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="productModalLabel">Edit Product</h1>
+                    <h1 class="modal-title fs-5">Cart :</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label class="form-label">Title</label>
-                    <input type="text" name="title" class="form-control mb-3" value="Laptop Dell XPS 15">
-
-                    <label class="form-label">Price</label>
-                    <input type="number" name="price" class="form-control mb-3" value="1500">
-
-                    <label class="form-label">Quantity</label>
-                    <input type="number" name="quantity" class="form-control mb-3" value="12">
-
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-select">
-                        <option value="Available" selected>Available</option>
-                        <option value="Out of stock">Out of stock</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info text-white" data-bs-dismiss="modal">Save changes</button>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
+
 
 </body>
 

@@ -12,28 +12,35 @@ function addAuthor(author) {
     authorImg = imgPath("author.png");
 
   $("#authors-tab-pane > .row").prepend(`
-        <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis h-100">
-            <img src="${authorImg}" class="card-img-top m-auto" alt="" style="width: 100px;">
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis position-relative">
+
+            <img
+                src="${authorImg}"
+                class="card-img-top m-auto"
+                alt="Author"
+                style="width: 100px;">
+
             <div class="card-body d-flex flex-column">
-                <h5 class="card-title mb-3">${author.authorName}</h5>
-                <div class="row mb-3">
-                    <div class="col-3">
-                        <div class="item d-flex align-items-center">
-                            <h6 class="mb-0">Bio :</h6>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="item text-start">
-                            <h6>${shortBio}...</h6>
-                        </div>
-                    </div>
+
+                <h5 class="card-title fw-bold mb-3">
+                    ${author.authorName}
+                </h5>
+
+                <div class="border-top border-bottom py-3 mb-3 text-start">
+                    <h6 class="mb-0">
+                        ${shortBio}...
+                    </h6>
                 </div>
-                <button class="btn btn-success w-100 mt-auto">Ban</button>
+
+                <button class="btn btn-success w-100 mt-auto">
+                    Ban
+                </button>
+
             </div>
         </div>
     </div>
-    `);
+`);
 }
 
 function imgPath(imgName, defaultImg = "default.png") {
@@ -63,81 +70,6 @@ function editUser(type, value) {
   modal.find(".modal-title").text(`Edit ${type}`);
   modal.find("#userEditForm .modal-body").html(inputHtml);
   modal.find("#userEditForm").attr("data-type", type.toLowerCase());
-}
-
-function BookCard(books) {
-  let bookCards = "";
-  let description = "";
-  for (let book in books) {
-    description =
-      books[book]["description"].length > 100
-        ? books[book]["description"].substring(0, 100) + "..."
-        : books[book]["description"];
-    if (books[book]["image"]) {
-      img = imgPath(`uploads/${books[book]["image"]}`);
-    } else {
-      img = imgPath("book.png");
-    }
-    bookCards += `
-        <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis">
-            <img src="${img}" class="card-img-top m-auto" alt="" style="width: 100px;">
-            <div class="card-body">
-                <h5 class="card-title mb-3">${books[book]["title"]}</h5>
-                <div class="row mb-3">
-                    <div class="col-4">
-                        <div class="item d-flex align-items-center">
-                            <h6 class="mb-0">Author :</h6>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="item text-start">
-                            <h6>${books[book]["author_name"]}</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-4">
-                        <div class="item d-flex align-items-center">
-                            <h6 class="mb-0">Description :</h6>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="item text-start">
-                            <h6>${books[book]["description"].substring(0, 100)}...</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-4">
-                        <div class="item d-flex align-items-center">
-                            <h6 class="mb-0">Price :</h6>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="item text-start">
-                            <h6>${books[book]["price"]}</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-4">
-                        <div class="item d-flex align-items-center">
-                            <h6 class="mb-0">Stock :</h6>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="item text-start">
-                            <h6>${books[book]["stock"]}</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
-  }
-  return bookCards;
 }
 
 function preparePagination(totalPages, currentPage, type) {
@@ -191,53 +123,53 @@ function Toast(type, message) {
   });
 }
 
-function orderTable(orders, userType = "user") {
-  console.log(userType);
-  let tableBody = "",
-    tableRows = "";
-  newBody = ``;
-  newRow = ``;
-  if (userType === "admin") {
-    newBody = `<td>
-                    <button class="btn btn-sm btn-danger me-2">Cancel</button>
-                    <button class="btn btn-sm btn-success">Done</button>
-                </td>`;
-    newRow = `<th scope="col">Options</th>`;
-  }
+// function orderTable(orders, userType = "user") {
+//   console.log(userType);
+//   let tableBody = "",
+//     tableRows = "";
+//   newBody = ``;
+//   newRow = ``;
+//   if (userType === "admin") {
+//     newBody = `<td>
+//                     <button class="btn btn-sm btn-danger me-2">Cancel</button>
+//                     <button class="btn btn-sm btn-success">Done</button>
+//                 </td>`;
+//     newRow = `<th scope="col">Options</th>`;
+//   }
 
-  tableRows = `
-  <table class="table table-info table-striped table-hover align-middle">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Customer</th>
-                <th scope="col">Total Price</th>
-                <th scope="col">Details</th>
-                <th scope="col">Created At</th>
-                ${newRow}
-            </tr>
-            </thead>
-            <tbody>`;
+//   tableRows = `
+//   <table class="table table-info table-striped table-hover align-middle">
+//         <thead>
+//             <tr>
+//                 <th scope="col">#</th>
+//                 <th scope="col">Customer</th>
+//                 <th scope="col">Total Price</th>
+//                 <th scope="col">Details</th>
+//                 <th scope="col">Created At</th>
+//                 ${newRow}
+//             </tr>
+//             </thead>
+//             <tbody>`;
 
-  orders.forEach((order) => {
-    tableBody += `
-    <tr>
-      <th scope="row">${order["id"]}</th>
-      <td>${order["customer_name"]}</td>
-                <td>${order["total_price"]}</td>
-                <td>
-                    <a href="#">See Details</a>
-                </td>
-                <td>${order["created_at"]}</td>
-                ${newBody}
-            </tr>
-            `;
-  });
+//   orders.forEach((order) => {
+//     tableBody += `
+//     <tr>
+//       <th scope="row">${order["id"]}</th>
+//       <td>${order["customer_name"]}</td>
+//                 <td>${order["total_price"]}</td>
+//                 <td>
+//                     <a href="#">See Details</a>
+//                 </td>
+//                 <td>${order["created_at"]}</td>
+//                 ${newBody}
+//             </tr>
+//             `;
+//   });
 
-  tableBody += `</tbody> </table>`;
-  html = tableRows + tableBody;
-  return html;
-}
+//   tableBody += `</tbody> </table>`;
+//   html = tableRows + tableBody;
+//   return html;
+// }
 
 function banUser(that, userId, text) {
   Swal.fire({
@@ -258,7 +190,7 @@ function banUser(that, userId, text) {
         success: function (response) {
           Swal.fire({
             title: "Deleted!",
-            text: "Your file has been deleted.",
+            text: `User has been ${text}ned.`,
             icon: "success",
           });
           let button = $(that);
@@ -286,13 +218,88 @@ function banUser(that, userId, text) {
   });
 }
 
-function openAddBookModal(that, authorId, authorName) {
-  that.blur();
+function openAddBookModal(authorId, authorName) {
   $("#AuthorId option").val(authorId).text(authorName);
   $("#BookAuthorId").val(authorId);
 
-  const modal = new bootstrap.Modal($("#addBookModal").get(0));
-  modal.show();
+  openModal("#addBookModal");
 }
 
+function openModal(ModalId) {
+  const modal = new bootstrap.Modal($(ModalId).get(0));
+  modal.show();
+  document.activeElement?.blur();
+}
 
+//Customer
+
+function getCartItems(orderId = null, status = "cart") {
+  if (orderId !== null) {
+    data = { orderId: parseInt(orderId) };
+  } else {
+    data = {};
+  }
+  $.ajax({
+    type: "POST",
+    url: "profile/getCartItems",
+    data: data,
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+      openModal("#cartModal");
+      let Books = response.data;
+      let BooksHtml = BookCard(response.data, status);
+      if (Books.length === 0) {
+        $("#cartModal .modal-body").html(emptyCart());
+        return;
+      }
+      $("#cartModal .modal-body").html(`
+        <h5 class="mb-3 text-center">Total Price: <span class="text-success">${Books[0]?.total_price ?? 0}</span></h5>
+        <div class="row">
+        ${BooksHtml}
+        ${
+          status === "cart"
+            ? `
+          <button class="btn btn-primary mt-3" onclick="fireOrder(${Books[0]["order_id"]})">Place Order</button>`
+            : ""
+        }
+        </div>
+        `);
+    },
+    error: function (response) {
+      console.log(response);
+      Toast("error", response.responseJSON.message);
+    },
+  });
+}
+
+function tableComponent(orders, type = "user", orderType = false) {
+  let tableHtml = "",
+    checked = false,
+    newBody = "";
+  if (type === "admin" && orderType) {
+    checked = true;
+  }
+
+  for (let order in orders) {
+    console.log(orders[order]["id"]);
+    if (checked) {
+      newBody = `<td>
+                    <button class="btn btn-sm btn-danger me-2" onclick="cancelOrder('${orders[order]["id"]}')">Cancel</button>
+                    <button class="btn btn-sm btn-success" onclick="doneOrder('${orders[order]["id"]}')">Done</button>
+                </td>`;
+    }
+    tableHtml += `
+            <tr>
+                <th scope="row">${orders[order].id}</th>
+                <td>${orders[order].customer_name}</td>
+                <td>${orders[order].total_price}</td>
+                <td>
+                <span class="badge text-bg-success" style="cursor: pointer;" onclick="getCartItems('${orders[order].id}', 'showOrder');">Show Details</span>
+                </td>
+                <td>${orders[order].created_at}</td>
+                ${checked ? newBody : ""}
+            </tr>`;
+  }
+  return tableHtml;
+}

@@ -53,7 +53,7 @@
 <div class="row">
     @foreach ($books['data'] as $book)
     <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis">
+        <!-- <div class="card text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis" data-book-id="{{ $book['id'] }}">
             @if ($book['image'])
             <img src="{{ asset('images/uploads/') }}{{ $book['image'] }}" class="card-img-top m-auto" alt="" style="width: 100px;">
             @else
@@ -108,13 +108,50 @@
                             <h6>{{ $book['stock'] }}</h6>
                         </div>
                     </div>
-                    @if (isAuth("customer"))
+                    @auth("customer")
                     <div class="input-group">
                         <input type="number" class="form-control" placeholder="Quantity" id="bookQuantity-{{ $book['id'] }}" name="bookQuantity">
-                        <button class="btn btn-outline-success" type="button" id="button-addon2">Add to Cart</button>
+                        <button class="btn btn-outline-success" type="button" onclick="addToCart(`{{ $book['id'] }}`,this)">Add to Cart</button>
                     </div>
-                    @endif
+                    @endauth
                 </div>
+            </div>
+        </div> -->
+        <div class="authorCard card text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis" data-book-id="{{ $book['id'] }}">
+            @if ($book['image'])
+            <img src="{{ asset('images/uploads/') }}{{ $book['image'] }}" class="card-img-top m-auto" alt="" style="width: 100px;">
+            @else
+            <img src="{{ asset('images/book.png') }}" class="card-img-top m-auto" alt="" style="width: 100px;">
+            @endif
+            <div class="card-body">
+                <div class="card-title mb-3">
+                    <h5 class="card-title mb-1">{{ $book['title'] }}</h5>
+                    <h6>{{ $book['author_name'] }}</h6>
+                </div>
+                <div class="ulContainer py-3 mb-3 text-start">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1">
+                            <p class="mb-0">{{ $book['stock'] }}</p>
+                            <h6 class="mb-0">Stock</h6>
+                        </li>
+                        <li class="mb-1">
+                            <p class="mb-0">{{ $book['price'] }}</p>
+                            <h6 class="mb-0">Price</h6>
+                        </li>
+                    </ul>
+                </div>
+                <div class="border-top border-bottom py-3 mb-3 text-start">
+                    <h6 class="mb-1">Description :</h6>
+                    <div class="item text-start">
+                        <p class="mb-0">{{ substr($book['description'], 0, 100) }}...</p>
+                    </div>
+                </div>
+                @auth("customer")
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="Quantity" id="bookQuantity-{{ $book['id'] }}" name="bookQuantity">
+                    <button class="btn btn-outline-success" type="button" onclick="addToCart(`{{ $book['id'] }}`,this)">Add to Cart</button>
+                </div>
+                @endauth
             </div>
         </div>
     </div>

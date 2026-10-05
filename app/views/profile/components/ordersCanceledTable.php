@@ -21,7 +21,7 @@
                 <td>{{ $canceledOrder['customer_name'] }}</td>
                 <td>{{ $canceledOrder['total_price'] }}</td>
                 <td>
-                    <a href="#">See Details</a>
+                    <span class="badge text-bg-success " style="cursor: pointer;" onclick="getCartItems(`{{ $canceledOrder['id'] }}`, 'showOrder');">Show Details</span>
                 </td>
                 <td>{{ $canceledOrder['created_at'] }}</td>
             </tr>

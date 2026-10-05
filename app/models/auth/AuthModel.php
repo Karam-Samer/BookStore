@@ -23,4 +23,16 @@ class AuthModel extends Model
         }
         return ["error" => "Wrong email or password"];
     }
+
+    public static function checkIfBanned() : bool
+    {
+        $DB = Database::getConnection();
+
+        $userId = auth("id");
+
+        $stmt = $DB->prepare("SELECT is_banned FROM users WHERE id = :userId");
+        $stmt->execute(['userId' => $userId]);
+
+        return $stmt->fetchColumn();
+    }
 }

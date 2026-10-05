@@ -1,0 +1,198 @@
+@use "../abstracts/" as *;
+
+nav.navbar {
+//   position: fixed;
+  top: 15px;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+
+  .container {
+    border-radius: 50px;
+    background: rgba($surface, 0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba($primary, 0.2);
+    box-shadow: 0 8px 16px #0000001a;
+    padding: 8px 24px;
+
+    @include respond(350) {
+      width: 94%;
+      padding: 8px 16px;
+      border-radius: 25px;
+    }
+
+    @include respond(1050) {
+      width: 100%;
+      padding: 8px 24px;
+      border-radius: 50px;
+    }
+
+    .navbar-brand {
+      width: 5%;
+      cursor: pointer;
+    }
+
+    .navbar-toggler {
+      @include distance(40px, 35px);
+      border: 1px solid $primary;
+      border-radius: 8px;
+      padding: 0;
+
+      display: none;
+
+      @include respond(350) {
+        @include flex();
+      }
+
+      @include respond(1050) {
+        display: none;
+      }
+
+      i {
+        color: $primary;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    @include respond(350) {
+      .navbar-collapse {
+        padding: 16px;
+        background: rgba($surface, 0.96);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba($primary, 0.25);
+        border-radius: 20px;
+        margin-top: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+
+        .navbar-nav {
+          flex-direction: column;
+          width: 100%;
+          gap: 8px;
+
+          li.nav-item {
+            width: 100%;
+            text-align: center;
+
+            .nav-link,
+            .dropdown-toggle {
+              width: 100%;
+              padding: 10px 16px;
+            }
+          }
+        }
+
+        ul {
+          width: 100%;
+          margin-top: 12px;
+        }
+      }
+    }
+
+    @include respond(1050) {
+      .navbar-collapse {
+        background: transparent;
+        backdrop-filter: none;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        margin-top: 0;
+
+        .navbar-nav {
+          flex-direction: row;
+          width: auto;
+          gap: 6px;
+
+          li.nav-item {
+            width: auto;
+
+            .nav-link,
+            .dropdown-toggle {
+              width: auto;
+              padding: 8px 22px;
+            }
+          }
+        }
+
+        ul {
+          width: auto;
+          margin-top: 0;
+        }
+      }
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-link {
+      font-size: clamp(14px, 1.1vw, 15px);
+      letter-spacing: 0.5px;
+      color: $primary;
+      padding: 8px 22px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      display: inline-block;
+
+      &.dropdown-toggle {
+        background: #3952a4;
+        color: #fff;
+        &:hover {
+          background: #2a3a7a;
+          color: #fff;
+        }
+      }
+
+      &.active {
+        color: #fff !important;
+        background: #172554;
+        border: 1px solid rgba($primary, 0.3);
+        box-shadow: 0 0 20px rgba($primary, 0.4);
+      }
+    }
+
+    i {
+      transition-duration: 0.5s;
+      cursor: pointer;
+      color: $secondary;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    background: rgba($surface, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba($primary, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+
+    .dropdown-item-text {
+      font-size: 14px;
+      color: $text;
+    }
+
+    .dropdown-divider {
+      border-color: rgba($primary, 0.2);
+    }
+
+    .dropdown-item {
+      font-size: 14px;
+      color: $secondary;
+      border-radius: 8px;
+      transition: 0.2s;
+
+      &:hover {
+        background: rgba($primary, 0.2);
+        color: #fff;
+      }
+    }
+  }
+}

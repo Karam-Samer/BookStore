@@ -11,7 +11,9 @@
 
 
 
-    @if (isAuth("admin"))
+
+
+    @auth("admin")
 
     <div class="col-lg-4 mb-3">
         <div class="item">
@@ -43,7 +45,7 @@
         </div>
     </div>
 
-    @else if (isAuth("customer"))
+    @elseauth("customer")
     <div class="col-lg-4 mb-3">
         <div class="item">
             <div class="card text-center p-3 rounded-4 border-0 bg-primary-subtle text-primary-emphasis">
@@ -53,13 +55,13 @@
             </div>
         </div>
     </div>
-    @endif
+    @endauth
 
     <div class="col-lg-4 mb-3">
         <div class="item">
             <div class="card text-center p-3 rounded-4 border-0 bg-primary-subtle text-primary-emphasis">
                 <i class="fa-solid fa-circle-pause m-auto"></i>
-                <h6 class="my-3">Total Pending Orders</h6>
+                <h6 class="my-3">Total Ordered Orders</h6>
                 <p class="text-success mb-0 fw-bolder">{{ $total['orders']['ordered'] }}</p>
             </div>
         </div>

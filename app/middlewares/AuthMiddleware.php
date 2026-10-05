@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/Middleware.php";
+require_once __DIR__ . "/../models/auth/AuthModel.php";
 
 class AuthMiddleware implements Middleware
 {
@@ -10,9 +11,16 @@ class AuthMiddleware implements Middleware
             redirect("/auth/login");
         }
 
+        if (AuthModel::checkIfBanned()) {
+            unset($_SESSION['user']);
+            redirect("/auth/login");
+        }
+
         if (empty($roles)) {
             return;
         }
+
+
 
         $userRole = $_SESSION['user']['role'];
         if (!in_array($userRole, $roles)) {

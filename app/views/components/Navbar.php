@@ -12,7 +12,7 @@
                     <a class="nav-link active" aria-current="page" href="{{ route('/') }}">Home</a>
                 </li>
                 <li class="nav-item dropdown">
-                    @if (isAuth("admin"))
+                    @auth("admin")
 
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ auth("name") }}
@@ -22,7 +22,7 @@
                         <li><a class="dropdown-item" href="{{ route('/auth/register') }}">Create New Admin</a></li>
                         <li><a class="dropdown-item" href="{{ route('/auth/logout') }}">Logout</a></li>
                     </ul>
-                    @else if (isAuth("customer"))
+                    @elseauth("customer")
 
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ auth("name") }}
@@ -39,10 +39,9 @@
                         <li><a class="dropdown-item" href="{{ route('/auth/login') }}">Login</a></li>
                         <li><a class="dropdown-item" href="{{ route('/auth/register') }}">Register</a></li>
                     </ul>
-                    @endif
+                    @endauth
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-

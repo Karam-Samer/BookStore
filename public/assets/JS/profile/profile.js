@@ -39,11 +39,9 @@ $(document).on("submit", "#userEditForm", function (e) {
       );
     },
   });
-  let modalElement = document.getElementById("userEditModal");
+  document.activeElement?.blur();
 
-  const modal = bootstrap.Modal.getInstance(modalElement);
-
-  modal?.hide();
+  $("#userEditModal .btn-close").get(0).click();
 });
 
 $(document).on("submit", "#addAuthorForm", function (e) {
@@ -63,8 +61,7 @@ $(document).on("submit", "#addAuthorForm", function (e) {
       $("#addAuthorModal p[data-error]").addClass("d-none");
       $("#addAuthorForm")[0].reset();
 
-      const modal = bootstrap.Modal.getInstance($("#addAuthorModal").get(0));
-      modal?.hide();
+      $("#addAuthorModal .btn-close").get(0).click();
 
       addAuthor(response.data);
     },
@@ -96,6 +93,7 @@ $(document).on("submit", "#BooksFilterForm", function (e) {
     url: "profile/filterBooks",
     data: formData,
     success: function (response) {
+      console.log(response);
       let books = response.data.data,
         currentPage = response.data.currentPage,
         totalPages = response.data.totalPages;
@@ -108,7 +106,7 @@ $(document).on("submit", "#BooksFilterForm", function (e) {
         );
         return;
       }
-      let booksHtml = BookCard(books);
+      let booksHtml = BookCard(books, "books");
       $("#books-tab-pane > nav ").remove();
 
       $("#books-tab-pane > .row").html(booksHtml);
@@ -148,7 +146,7 @@ $(document).on("click", "#books-tab-pane .page-link", function (e) {
         );
         return;
       }
-      let booksHtml = BookCard(books);
+      let booksHtml = BookCard(books, "books");
 
       $("#books-tab-pane > .row").html(booksHtml);
 
@@ -164,7 +162,6 @@ $(document).on("click", "#books-tab-pane .page-link", function (e) {
   });
 });
 
-
 $(document).on("submit", "#addBookForm", function (e) {
   e.preventDefault();
 
@@ -179,12 +176,11 @@ $(document).on("submit", "#addBookForm", function (e) {
       $("#addBookModal p[data-error]").addClass("d-none");
       $("#addBookForm")[0].reset();
 
-      const modal = bootstrap.Modal.getInstance($("#addBookModal").get(0));
-      modal?.hide();
+      $("#addBookModal .btn-close").get(0).click();
 
       let book = response.data;
 
-      $("#books-tab-pane > .row").prepend(BookCard([book]));
+      $("#books-tab-pane > .row").prepend(BookCard([book], "books"));
     },
     error: function (response) {
       let errors = response.responseJSON.data;
@@ -193,19 +189,8 @@ $(document).on("submit", "#addBookForm", function (e) {
   });
 });
 
-
-
 $(document).on("click", "#orders_ordered-tab-pane .page-link", function (e) {
   e.preventDefault();
-  type = "";
-  if (
-    $("#orders_ordered-tab-pane > .table-responsive thead tr th").length == 6
-  ) {
-    type = "admin";
-  } else {
-    type = "user";
-  }
-  console.log(type);
 
   let page = $(this).attr("href").split("=")[1];
   $.ajax({
@@ -214,11 +199,11 @@ $(document).on("click", "#orders_ordered-tab-pane .page-link", function (e) {
     data: { page: page },
     success: function (response) {
       console.log(response);
-      let orders = response.data.data.data,
-        currentPage = response.data.data.currentPage,
-        totalPages = response.data.data.totalPages;
+      let orders = response.data.orders.data,
+        currentPage = response.data.orders.currentPage,
+        totalPages = response.data.orders.totalPages;
 
-      $("#orders_ordered-tab-pane > .table-responsive").html("");
+      $("#orders_ordered-tab-pane > .table-responsive tbody").html("");
       if (orders.length == 0) {
         $("#orders_ordered-tab-pane > .table-responsive tbody").html(
           `<div class="alert alert-warning text-center" role="alert">
@@ -227,8 +212,9 @@ $(document).on("click", "#orders_ordered-tab-pane .page-link", function (e) {
         );
         return;
       }
-      let ordersHtml = orderTable(orders, type);
-      $("#orders_ordered-tab-pane > .table-responsive").html(ordersHtml);
+      console.log(orders);
+      let ordersHtml = tableComponent(orders, response.data.role, true);
+      $("#orders_ordered-tab-pane > .table-responsive tbody").html(ordersHtml);
 
       $("#orders_ordered-tab-pane > nav ").remove();
 
@@ -242,36 +228,36 @@ $(document).on("click", "#orders_ordered-tab-pane .page-link", function (e) {
   });
 });
 
-$(document).on("click", "#orders_cancelled-tab-pane .page-link", function (e) {
+$(document).on("click", "#orders_canceled-tab-pane .page-link", function (e) {
   e.preventDefault();
 
   let page = $(this).attr("href").split("=")[1];
   $.ajax({
     type: "POST",
-    url: "profile/pagination/ordered",
+    url: "profile/pagination/canceled",
     data: { page: page },
     success: function (response) {
       console.log(response);
-      let orders = response.data.data.data,
-        currentPage = response.data.data.currentPage,
-        totalPages = response.data.data.totalPages;
+      let orders = response.data.orders.data,
+        currentPage = response.data.orders.currentPage,
+        totalPages = response.data.orders.totalPages;
 
-      $("#orders_cancelled-tab-pane > .table-responsive").html("");
+      $("#orders_canceled-tab-pane > .table-responsive tbody").html("");
       if (orders.length == 0) {
-        $("#orders_cancelled-tab-pane > .table-responsive tbody").html(
+        $("#orders_canceled-tab-pane > .table-responsive tbody").html(
           `<div class="alert alert-warning text-center" role="alert">
               No orders found.
             </div>`,
         );
         return;
       }
-      let ordersHtml = orderTable(orders);
-      $("#orders_cancelled-tab-pane > .table-responsive").html(ordersHtml);
+      let ordersHtml = tableComponent(orders, response.data.role);
+      $("#orders_canceled-tab-pane > .table-responsive tbody").html(ordersHtml);
 
-      $("#orders_cancelled-tab-pane > nav ").remove();
+      $("#orders_canceled-tab-pane > nav ").remove();
 
-      $("#orders_cancelled-tab-pane").append(
-        preparePagination(totalPages, currentPage, "orders_cancelled"),
+      $("#orders_canceled-tab-pane").append(
+        preparePagination(totalPages, currentPage, "orders_canceled"),
       );
     },
     error: function (response) {
@@ -285,15 +271,15 @@ $(document).on("click", "#orders_done-tab-pane .page-link", function (e) {
   let page = $(this).attr("href").split("=")[1];
   $.ajax({
     type: "POST",
-    url: "profile/pagination/ordered",
+    url: "profile/pagination/done",
     data: { page: page },
     success: function (response) {
       console.log(response);
-      let orders = response.data.data.data,
-        currentPage = response.data.data.currentPage,
-        totalPages = response.data.data.totalPages;
+      let orders = response.data.orders.data,
+        currentPage = response.data.orders.currentPage,
+        totalPages = response.data.orders.totalPages;
 
-      $("#orders_done-tab-pane > .table-responsive").html("");
+      $("#orders_done-tab-pane > .table-responsive tbody").html("");
       if (orders.length == 0) {
         $("#orders_done-tab-pane > .table-responsive tbody").html(
           `<div class="alert alert-warning text-center" role="alert">
@@ -302,8 +288,11 @@ $(document).on("click", "#orders_done-tab-pane .page-link", function (e) {
         );
         return;
       }
-      let ordersHtml = orderTable(orders);
-      $("#orders_done-tab-pane > .table-responsive").html(ordersHtml);
+      let ordersHtml = tableComponent(orders);
+      $("#orders_done-tab-pane > .table-responsive tbody").html(
+        ordersHtml,
+        response.data.role,
+      );
 
       $("#orders_done-tab-pane > nav ").remove();
 
@@ -316,5 +305,3 @@ $(document).on("click", "#orders_done-tab-pane .page-link", function (e) {
     },
   });
 });
-
-

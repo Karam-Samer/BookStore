@@ -17,7 +17,7 @@ class Controller
         file_put_contents($tempFile, $file);
 
         include $tempFile;
-        unlink($tempFile);
+        // unlink($tempFile);
     }
 
     private function patternsExecute(string $filePath, string $folderPath): string
@@ -28,7 +28,6 @@ class Controller
             "if" => '/\s*@if\s*\(\s*(.*?)\s*\)\s*$/m',
             "else" => '/\s*@else\s*$/m',
             "elseif" => '/\s*@else if\s*\(\s*(.*?)\s*\)\s*$/m',
-            "endif" => '/\s*@endif\s*$/m',
             "for" => '/\s*@for\s*\(\s*(.*?)\s*\)\s*$/m',
             "endfor" => '/\s*@endfor\s*$/m',
             "foreach" => '/\s*@foreach\s*\(\s*(.*?)\s*\)\s*$/m',
@@ -36,7 +35,12 @@ class Controller
             "function" => '/\{\{\s*(.*?)\s*\}\}/',
             "empty" => '/\s*@empty\s*\(\s*(.*?)\s*\)\s*$/m',
             "endempty" => '/\s*@endempty\s*$/m',
+            "auth" => '/\s*@auth\s*(\(\s*(.*?)\s*\))?\s*$/m',
+            "elseauth" => '/\s*@elseauth\s*(\(\s*(.*?)\s*\))\s*$/m',
+            "endauth" => '/\s*@endauth\s*$/m',
+            "endif" => '/\s*@endif\s*$/m',
             "component" => '/<x-([A-Za-z][A-Za-z0-9_-]*)\s*\/>/',
+
 
             // "if-elseif-else" => '/\s*@if\s*\(\s*([^)]*\))\s*\)([^@]*)@else\s+if\s*\(\s*([^)]*\))\s*\)\s*([^@]*)@else\s*([^@]*)@endif/',
             // "if-else" => '/\s*@if\s*\(\s*([^)]*?\)*)\s*\)([^@]*)@else([^@]*)@endif/',
@@ -60,7 +64,9 @@ class Controller
             "function" => "<?php echo $1; ?>",
             "empty" => "<?php if (empty($1)): ?>",
             "endempty" => "<?php endif; ?>",
-
+            "auth" => "<?php if (isAuth($2 ?? null)): ?>",
+            "elseauth" => "<?php elseif (isAuth($2 ?? null)): ?>",
+            "endauth" => "<?php endif; ?>",
         ];
 
 

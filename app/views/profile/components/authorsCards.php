@@ -3,35 +3,29 @@
     No authors found.
 </div>
 @else
-<button class="btn btn-success w-100 mb-3" role="button"
+<button class="btn btn-success w-100 mb-3"
     data-bs-toggle="modal" data-bs-target="#addAuthorModal">Add Author</button>
 
 <div class="row">
     @foreach ($authors['data'] as $author)
     <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis h-100">
+        <div class="card text-center rounded-4 p-3 border-0 bg-primary-subtle text-primary-emphasis h-100">
             <img src="{{ asset('images/author.png') }}" class="card-img-top m-auto" alt="" style="width: 100px;">
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title mb-3">{{ $author['name'] }}</h5>
-                <div class="row mb-3">
-                    <div class="col-3">
-                        <div class="item d-flex align-items-center">
-                            <h6 class="mb-0">Bio :</h6>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="item text-start">
-                            @if ( $author['bio'] )
-                            <h6>{{ authorBio($author['bio']) }}</h6>
-                            @else
-                            <h6 class="text-danger">No bio available</h6>
-                            @endif
-                        </div>
+            <div class="card-body d-flex flex-column p-2">
+                <h5 class="card-title fw-bold mb-3">{{ $author['name'] }}</h5>
+                <div class="border-top border-bottom py-3 mb-3 text-start">
+                    <h6 class="mb-1">Bio :</h6>
+                    <div class="item text-start">
+                        @if ( $author['bio'] )
+                        <p class="mb-0">{{ authorBio($author['bio']) }}</p>
+                        @else
+                        <p class="text-warning mb-0">No bio available</p>
+                        @endif
                     </div>
                 </div>
                 <button
                     class="btn btn-success w-100 mt-auto addBookBtn"
-                    onclick="openAddBookModal(this, `{{ $author['id'] }}`, `{{ $author['name'] }}`)">
+                    onclick="openAddBookModal(`{{ $author['id'] }}`, `{{ $author['name'] }}`)">
                     Add New Book
                 </button>
             </div>

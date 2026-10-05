@@ -1,0 +1,37 @@
+@mixin moveDown($number) {
+    @keyframes moveDown-#{$number} {
+        0% {
+            opacity: 0;
+
+            @if($number ==2 or $number ==3) {
+                transform: translateY(0px);
+            }
+        }
+
+        50% {
+            opacity: 1;
+
+            @if($number ==2) {
+                transform: translateY(15px);
+            }
+
+            @else if($number ==3) {
+                transform: translateY(30px);
+            }
+        }
+
+        100% {
+            opacity: 0;
+
+            @if($number ==2) {
+                transform: translateY(15px);
+            }
+
+            @else if($number ==3) {
+                transform: translateY(30px);
+            }
+        }
+    }
+
+    animation: moveDown-#{$number} 2s infinite;
+}
