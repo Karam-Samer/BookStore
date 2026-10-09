@@ -1,0 +1,35 @@
+@use "./../abstracts" as *;
+
+.modal {
+  .modal-content {
+    background: $surface;
+    border: 1px solid rgba($primary, 0.25);
+    border-radius: 16px;
+    color: $text;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-header {
+    border-bottom: 1px solid rgba($primary, 0.15);
+    padding: 18px 24px;
+
+    .btn-close {
+      filter: invert(1);
+      opacity: 0.7;
+      transition-duration: 0.2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .modal-title {
+    color: $text;
+    font-weight: bold;
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba($primary, 0.15);
+  }
+}

@@ -1,4 +1,10 @@
 @use "./abstracts" as *;
 
-@use "./components/_navbar" as *;
+@use "./components/NavBar" as *;
 @use "./components/card" as *;
+@use "./components/auth" as *;
+@use "./components/carousel" as *;
+@use "./components/dashboard" as *;
+@use "./components/table" as *;
+@use "./components/modal" as *;
+@use "./components/buttons" as *;

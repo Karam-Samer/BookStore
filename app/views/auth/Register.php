@@ -7,8 +7,9 @@
     <title>Register</title>
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('CSS/plugins/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('CSS/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('CSS/auth/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/plugins/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/style.css') }}">
+
 
     <!-- JS -->
 
@@ -22,8 +23,8 @@
 
     <section id="Register">
         <div class="container my-5">
-            <form class="w-25 m-auto" method="POST" action="{{ route('/auth/register') }}">
-                <h1 class="text-center mb-4 text-success">Register</h1>
+            <form class="m-auto" method="POST" action="{{ route('/auth/register') }}">
+                <h1 class="text-center mb-4 mainTitle">Register</h1>
                 {{ getSessionMsg('_errorMsg', 'danger') }}
                 <div class="mb-3">
                     <label for="Role" class="form-label">Role :</label>
@@ -66,7 +67,7 @@
                     </select>
                     {{ getError('gender') }}
                 </div>
-                <button type="submit" class="btn btn-success w-100">Register</button>
+                <button type="submit" class="btn mainButton w-100">Register</button>
             </form>
         </div>
     </section>

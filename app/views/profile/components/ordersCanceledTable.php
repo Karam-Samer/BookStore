@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-info table-striped table-hover align-middle">
+    <table class="table mainTable table-striped table-hover align-middle">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -12,7 +12,7 @@
         <tbody>
             @empty($orders['canceled']['data'])
             <tr>
-                <td colspan="5" class="text-center table-danger">No canceled orders found.</td>
+                <td colspan="5" class="text-center emptyRow">No canceled orders found.</td>
             </tr>
             @else
             @foreach ($orders['canceled']['data'] as $canceledOrder)
@@ -21,7 +21,7 @@
                 <td>{{ $canceledOrder['customer_name'] }}</td>
                 <td>{{ $canceledOrder['total_price'] }}</td>
                 <td>
-                    <span class="badge text-bg-success " style="cursor: pointer;" onclick="getCartItems(`{{ $canceledOrder['id'] }}`, 'showOrder');">Show Details</span>
+                    <span class="badge mainBadge" style="cursor: pointer;" onclick="getCartItems(`{{ $canceledOrder['id'] }}`, 'showOrder');">Show Details</span>
                 </td>
                 <td>{{ $canceledOrder['created_at'] }}</td>
             </tr>

@@ -1,0 +1,53 @@
+@use "./../abstracts" as *;
+
+#Login,
+#Register {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+
+  form {
+    background: $surface;
+    border: 1px solid rgba($primary, 0.18);
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    width: 75%;
+    @include respond(350) {
+      width: 100%;
+    }
+
+    @include respond(450) {
+      width: 90%;
+    }
+
+    @include respond(650) {
+      width: 85%;
+    }
+
+    @include respond(850) {
+      width: 75%;
+    }
+
+    .mainTitle {
+      color: $primary;
+      font-weight: bold;
+      font-size: 28px;
+    }
+
+    .mainButton {
+      margin-top: 10px;
+    }
+
+    a {
+      color: $primary;
+      text-decoration: none;
+      transition-duration: 0.3s;
+
+      &:hover {
+        color: $hover;
+      }
+    }
+  }
+}

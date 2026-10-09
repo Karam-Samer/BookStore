@@ -1,0 +1,53 @@
+@use "./../abstracts" as *;
+
+.mainButton {
+  background: $primary-gradient;
+  border: 1px solid transparent;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background: linear-gradient(135deg, $primary 0%, $hover 100%);
+    color: $bg;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($primary, 0.4);
+  }
+}
+
+.secondaryButton {
+  background: rgba($surface-light, 0.6);
+  border: 1px solid rgba($primary, 0.3);
+  color: $text;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($primary, 0.2);
+    border-color: $primary;
+    color: $hover;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.cartBtn {
+  background: rgba($primary, 0.15);
+  border: 1px solid rgba($primary, 0.3);
+  color: $primary;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background: $primary;
+    color: $bg;
+    border-color: $primary;
+  }
+}
+

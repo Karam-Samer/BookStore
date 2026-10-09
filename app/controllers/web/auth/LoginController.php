@@ -7,7 +7,7 @@ class LoginController extends Controller
 {
     public function index(): void
     {
-        $this->view("auth/login");
+        $this->view("auth/Login");
     }
 
     public function login(): void

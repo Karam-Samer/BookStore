@@ -35,6 +35,10 @@ class Route
     {
         $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+        if ($url !== '/') {
+            $url = rtrim($url, '/');
+        }
+
         $method = $_SERVER['REQUEST_METHOD'];
 
         $flag = false;

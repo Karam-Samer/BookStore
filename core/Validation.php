@@ -78,11 +78,13 @@ class Validation
 
         $DB = Database::getConnection();
         $subQuery = "";
+        $params = ['value' => $value];
         if ($exceptId !== null) {
             $subQuery = " AND id != :exceptId";
+            $params['exceptId'] = $exceptId;
         }
         $stmt = $DB->prepare("SELECT * FROM {$table} WHERE {$field} = :value {$subQuery}");
-        $stmt->execute(['value' => $value, 'exceptId' => $exceptId]);
+        $stmt->execute($params);
         $result = $stmt->fetch();
 
         if (!empty($result)) {

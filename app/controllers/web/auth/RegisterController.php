@@ -7,7 +7,7 @@ class RegisterController extends Controller
 {
     public function index(): void
     {
-        $this->view("auth/register");
+        $this->view("auth/Register");
     }
 
     public function register(): void
@@ -32,6 +32,8 @@ class RegisterController extends Controller
 
         UserModel::createUser();
 
+        $email = Request::input('email');
+        $_SESSION['_old'] = ['email' => $email];
 
         redirect("/auth/login");
     }

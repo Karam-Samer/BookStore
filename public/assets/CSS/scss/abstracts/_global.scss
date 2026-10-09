@@ -1,0 +1,71 @@
+@use "./variables" as *;
+
+body {
+  background: $bg;
+  background: linear-gradient(135deg, #1a1410 0%, #231c15 40%, #1e1712 100%);
+  min-height: 100vh;
+  font-family: $font-main;
+  color: $text;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $surface-light;
+  border-radius: 4px;
+
+  &:hover {
+    background: $primary;
+  }
+}
+
+::selection {
+  background: rgba($primary, 0.3);
+  color: $text;
+}
+
+.mainTitle {
+  color: $primary;
+  font-weight: bold;
+}
+
+.form-control,
+.form-select {
+  background: $bg;
+  border: 1px solid rgba($primary, 0.25);
+  color: $text;
+  border-radius: 10px;
+  transition-duration: 0.3s;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.2);
+    color: $text;
+    background-color: $bg;
+  }
+
+  &::placeholder {
+    color: $text;
+    opacity: 1;
+  }
+
+  &:disabled {
+    color: $secondary;
+    background-color: rgba($bg, 0.3);
+  }
+}
+
+.form-label {
+  color: $secondary;
+  font-size: 14px;
+}
+
+.secondaryText {
+  color: $secondary;
+}

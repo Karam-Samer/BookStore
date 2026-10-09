@@ -1,18 +1,105 @@
-@use "./../abstracts/index" as *;
+@use "./../abstracts" as *;
+
+.card {
+  background: $surface;
+  border: 1px solid rgba($primary, 0.15);
+  color: $text;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition-duration: 0.3s;
+
+  &:hover {
+    border-color: rgba($primary, 0.35);
+  }
+
+  .card-title {
+    color: $text;
+  }
+
+  .card-body {
+    color: inherit;
+  }
+}
+
+.statCard {
+  background: rgba($surface-light, 0.4);
+  border: 1px solid rgba($primary, 0.2);
+  color: $primary;
+
+  i {
+    font-size: 32px;
+    color: $primary;
+  }
+
+  h6 {
+    color: $secondary;
+    letter-spacing: 0.5px;
+  }
+}
+
+.statNumber {
+  color: $primary;
+  font-size: 24px;
+}
+
 .authorCard {
+  background: $surface;
+  border: 1px solid rgba($primary, 0.18);
   img {
     border-radius: 100%;
   }
-  .ulContainer {
-    border-top: 1px solid $secondary;
-    border-bottom: 1px solid $secondary;
 
+  .cardInfo,
+  .ulContainer {
+    border-top: 1px solid rgba($secondary, 0.3);
+    border-bottom: 1px solid rgba($secondary, 0.3);
+  }
+
+  .ulContainer {
     ul {
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      text-align: center;
+      @include flex($jc: space-around);
+
+      li {
+        @include flex();
+        flex-direction: column;
+        p {
+          color: $accent-gold;
+          font-weight: bold;
+        }
+
+        h6 {
+          color: $secondary;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  .buttonsContainer {
+    width: 50%;
+    @include respond(350) {
+      width: 66%;
+    }
+    @include respond(450) {
+      width: 55%;
+    }
+    @include respond(650) {
+      width: 48%;
+    }
+    @include respond(850) {
+      width: 80%;
+    }
+    @include respond(1050) {
+      width: 72%;
+    }
+    @include respond(1200) {
+      width: 44%;
+    }
+    .mainButton,
+    .secondaryButton {
+      &:hover {
+        transform: none;
+      }
     }
   }
 }

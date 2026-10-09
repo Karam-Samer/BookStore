@@ -1,0 +1,97 @@
+@use "./../abstracts" as *;
+
+#Dashboard {
+  .edit {
+    cursor: pointer;
+    font-size: 14px;
+    color: $accent-gold;
+    transition-duration: 0.3s;
+
+    &:hover {
+      color: $hover;
+      transform: scale(1.15);
+    }
+  }
+
+  .nav-tabs {
+    border-bottom: 2px solid rgba($primary, 0.2);
+    gap: 4px;
+
+    .nav-item {
+      ul {
+        background: rgba(42, 33, 24, 0.95);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(200, 149, 108, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        margin-top: 10px;
+
+        li a {
+          color: $primary;
+        }
+      }
+
+      .nav-link {
+        color: $secondary;
+        border: none;
+        border-radius: 8px 8px 0 0;
+        padding: 10px 20px;
+        transition-duration: 0.3s;
+
+        &:hover {
+          color: $primary;
+          background: rgba($primary, 0.08);
+        }
+
+        &.active {
+          background: rgba($primary, 0.15);
+          color: $primary;
+          border: 1px solid rgba($primary, 0.3);
+          border-bottom-color: transparent;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  #BooksFilter {
+    .input-group-text {
+      background-color: $surface;
+      border: 1px solid rgba($primary, 0.25);
+      color: $primary;
+    }
+  }
+
+  .pagination {
+    margin-top: 20px;
+    @include flex();
+
+    .page-item {
+      .page-link {
+        background-color: $surface;
+        border: 1px solid rgba($primary, 0.2);
+        color: $secondary;
+        transition-duration: 0.2s;
+
+        &:hover {
+          background-color: rgba($primary, 0.2);
+          color: $text;
+          border-color: $primary;
+        }
+      }
+
+      &.active .page-link {
+        background-color: $primary;
+        border-color: $primary;
+        color: $bg;
+        font-weight: bold;
+      }
+
+      &.disabled .page-link {
+        background-color: rgba($surface, 0.5);
+        color: rgba($secondary, 0.5);
+        border-color: rgba($primary, 0.1);
+      }
+    }
+  }
+}

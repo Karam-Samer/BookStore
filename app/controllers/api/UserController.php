@@ -2,7 +2,7 @@
 
 class UserController
 {
-    public function __invoke()
+    public function getUser()
     {
         if (!isset($_SESSION['user'])) {
             Response::error("Unauthorized", 401);

@@ -3,7 +3,7 @@
     No books found.
 </div>
 @else
-<div id="BoolsFilter">
+<div id="BooksFilter">
     <form id="BooksFilterForm" method="POST">
         <div class="row">
             <div class="col-lg-6">
@@ -45,7 +45,7 @@
                     </select>
                 </div>
             </div>
-            <button class="btn btn-success w-100 mb-3">Filter</button>
+            <button class="btn mainButton w-100 mb-3">Filter</button>
         </div>
     </form>
 </div>
@@ -111,19 +111,19 @@
                     @auth("customer")
                     <div class="input-group">
                         <input type="number" class="form-control" placeholder="Quantity" id="bookQuantity-{{ $book['id'] }}" name="bookQuantity">
-                        <button class="btn btn-outline-success" type="button" onclick="addToCart(`{{ $book['id'] }}`,this)">Add to Cart</button>
+                        <button class="btn cartBtn py-2 px-3" type="button" onclick="addToCart(`{{ $book['id'] }}`,this)">Add to Cart</button>
                     </div>
                     @endauth
                 </div>
             </div>
         </div> -->
-        <div class="authorCard card text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis" data-book-id="{{ $book['id'] }}">
+        <div class="authorCard card h-100 text-center rounded-4 py-3 px-2 border-0" data-book-id="{{ $book['id'] }}">
             @if ($book['image'])
             <img src="{{ asset('images/uploads/') }}{{ $book['image'] }}" class="card-img-top m-auto" alt="" style="width: 100px;">
             @else
             <img src="{{ asset('images/book.png') }}" class="card-img-top m-auto" alt="" style="width: 100px;">
             @endif
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
                 <div class="card-title mb-3">
                     <h5 class="card-title mb-1">{{ $book['title'] }}</h5>
                     <h6>{{ $book['author_name'] }}</h6>
@@ -140,16 +140,16 @@
                         </li>
                     </ul>
                 </div>
-                <div class="border-top border-bottom py-3 mb-3 text-start">
+                <div class="mb-3 text-start">
                     <h6 class="mb-1">Description :</h6>
                     <div class="item text-start">
                         <p class="mb-0">{{ substr($book['description'], 0, 100) }}...</p>
                     </div>
                 </div>
                 @auth("customer")
-                <div class="input-group">
+                <div class="input-group mt-auto">
                     <input type="number" class="form-control" placeholder="Quantity" id="bookQuantity-{{ $book['id'] }}" name="bookQuantity">
-                    <button class="btn btn-outline-success" type="button" onclick="addToCart(`{{ $book['id'] }}`,this)">Add to Cart</button>
+                    <button class="btn cartBtn py-2 px-3" type="button" onclick="addToCart(`{{ $book['id'] }}`,this)">Add to Cart</button>
                 </div>
                 @endauth
             </div>

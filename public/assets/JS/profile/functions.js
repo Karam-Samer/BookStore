@@ -6,35 +6,36 @@ function showErrors(errors) {
 
 function addAuthor(author) {
   let shortBio =
-      author.authorBio.length > 100
+      author.authorBio && author.authorBio.length > 100
         ? author.authorBio.substring(0, 100) + "..."
-        : author.authorBio,
+        : author.authorBio || "",
     authorImg = imgPath("author.png");
 
   $("#authors-tab-pane > .row").prepend(`
     <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100 text-center rounded-4 py-3 px-2 border-0 bg-primary-subtle text-primary-emphasis position-relative">
+        <div class="authorCard card text-center rounded-4 p-3 border-0 h-100">
 
             <img
                 src="${authorImg}"
                 class="card-img-top m-auto"
-                alt="Author"
+                alt=""
                 style="width: 100px;">
 
-            <div class="card-body d-flex flex-column">
+            <div class="card-body d-flex flex-column p-2">
 
                 <h5 class="card-title fw-bold mb-3">
                     ${author.authorName}
                 </h5>
 
-                <div class="border-top border-bottom py-3 mb-3 text-start">
-                    <h6 class="mb-0">
-                        ${shortBio}...
-                    </h6>
+                <div class="cardInfo py-3 mb-3 text-start">
+                    <h6 class="mb-1">Bio :</h6>
+                    <div class="item text-start">
+                        <p class="mb-0">${shortBio}</p>
+                    </div>
                 </div>
 
-                <button class="btn btn-success w-100 mt-auto">
-                    Ban
+                <button class="btn mainButton w-100 mt-auto addBookBtn" onclick="openAddBookModal('${author.authorId ?? author.id}', '${author.authorName}')">
+                    Add New Book
                 </button>
 
             </div>
@@ -47,7 +48,7 @@ function imgPath(imgName, defaultImg = "default.png") {
   if (imgName == null) {
     imgName = defaultImg;
   }
-  return window.location.origin + "/BookStore/public/assets/images/" + imgName;
+  return window.location.origin + "/assets/images/" + imgName;
 }
 
 function editUser(type, value) {
@@ -70,6 +71,7 @@ function editUser(type, value) {
   modal.find(".modal-title").text(`Edit ${type}`);
   modal.find("#userEditForm .modal-body").html(inputHtml);
   modal.find("#userEditForm").attr("data-type", type.toLowerCase());
+  modal.find("#userEditForm").attr("data-edit-label", type);
 }
 
 function preparePagination(totalPages, currentPage, type) {
@@ -113,6 +115,8 @@ function Toast(type, message) {
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
+    background: "#2a2118",
+    color: "#f5efe6",
     didOpen: (toast) => {
       toast.onmouseenter = Swal.stopTimer;
       toast.onmouseleave = Swal.resumeTimer;
@@ -123,81 +127,38 @@ function Toast(type, message) {
   });
 }
 
-// function orderTable(orders, userType = "user") {
-//   console.log(userType);
-//   let tableBody = "",
-//     tableRows = "";
-//   newBody = ``;
-//   newRow = ``;
-//   if (userType === "admin") {
-//     newBody = `<td>
-//                     <button class="btn btn-sm btn-danger me-2">Cancel</button>
-//                     <button class="btn btn-sm btn-success">Done</button>
-//                 </td>`;
-//     newRow = `<th scope="col">Options</th>`;
-//   }
-
-//   tableRows = `
-//   <table class="table table-info table-striped table-hover align-middle">
-//         <thead>
-//             <tr>
-//                 <th scope="col">#</th>
-//                 <th scope="col">Customer</th>
-//                 <th scope="col">Total Price</th>
-//                 <th scope="col">Details</th>
-//                 <th scope="col">Created At</th>
-//                 ${newRow}
-//             </tr>
-//             </thead>
-//             <tbody>`;
-
-//   orders.forEach((order) => {
-//     tableBody += `
-//     <tr>
-//       <th scope="row">${order["id"]}</th>
-//       <td>${order["customer_name"]}</td>
-//                 <td>${order["total_price"]}</td>
-//                 <td>
-//                     <a href="#">See Details</a>
-//                 </td>
-//                 <td>${order["created_at"]}</td>
-//                 ${newBody}
-//             </tr>
-//             `;
-//   });
-
-//   tableBody += `</tbody> </table>`;
-//   html = tableRows + tableBody;
-//   return html;
-// }
-
 function banUser(that, userId, text) {
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#c8956c",
+    cancelButtonColor: "#c45e4c",
     confirmButtonText: `Yes, ${text} it!`,
+    background: "#2a2118",
+    color: "#f5efe6",
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
         type: "POST",
-        url: "profile/banUser",
+        url: "/profile/banUser",
         data: { userId: userId },
         dataType: "json",
         success: function (response) {
           Swal.fire({
-            title: "Deleted!",
-            text: `User has been ${text}ned.`,
+            title: text === "ban" ? "Banned!" : "Unbanned!",
+            text: `User has been ${text === "ban" ? "banned" : "unbanned"}.`,
             icon: "success",
+            confirmButtonColor: "#c8956c",
+            background: "#2a2118",
+            color: "#f5efe6",
           });
           let button = $(that);
           if (text === "ban") {
             button.closest(".card").prepend(`
-                        <span class="badge text-bg-danger position-absolute" style="top: 10px; right: 10px;">Banned</span>
-                    `);
+              <span class="badge text-bg-danger position-absolute top-0 end-0 m-3">Banned</span>
+            `);
           } else {
             button.closest(".card").find(".badge").remove();
           }
@@ -206,12 +167,10 @@ function banUser(that, userId, text) {
             `banUser(this, ${userId}, '${text === "ban" ? "unban" : "ban"}')`,
           );
           button.text(text === "ban" ? "Unban" : "Ban");
-          button.toggleClass("btn-danger btn-success");
+          button.toggleClass("secondaryButton mainButton");
         },
         error: function (response) {
-          console.log(response);
-          console.log(response.responseJSON);
-          Toast("error", response.responseJSON.message);
+          Toast("error", response.responseJSON?.message);
         },
       });
     }
@@ -226,26 +185,26 @@ function openAddBookModal(authorId, authorName) {
 }
 
 function openModal(ModalId) {
-  const modal = new bootstrap.Modal($(ModalId).get(0));
+  let modal = new bootstrap.Modal($(ModalId).get(0));
   modal.show();
   document.activeElement?.blur();
 }
 
-//Customer
+function emptyCart() {
+  return `
+  <div class="alert alert-warning text-center" role="alert">
+                Your cart is empty.
+  </div>`;
+}
 
 function getCartItems(orderId = null, status = "cart") {
-  if (orderId !== null) {
-    data = { orderId: parseInt(orderId) };
-  } else {
-    data = {};
-  }
+  let data = orderId !== null ? { orderId: parseInt(orderId) } : {};
   $.ajax({
     type: "POST",
-    url: "profile/getCartItems",
+    url: "/profile/getCartItems",
     data: data,
     dataType: "json",
     success: function (response) {
-      console.log(response);
       openModal("#cartModal");
       let Books = response.data;
       let BooksHtml = BookCard(response.data, status);
@@ -254,21 +213,20 @@ function getCartItems(orderId = null, status = "cart") {
         return;
       }
       $("#cartModal .modal-body").html(`
-        <h5 class="mb-3 text-center">Total Price: <span class="text-success">${Books[0]?.total_price ?? 0}</span></h5>
+        <h5 class="mb-3 text-center">Total Price: <span class="statNumber">${Books[0]?.total_price ?? 0}</span></h5>
         <div class="row">
         ${BooksHtml}
         ${
           status === "cart"
             ? `
-          <button class="btn btn-primary mt-3" onclick="fireOrder(${Books[0]["order_id"]})">Place Order</button>`
+          <button class="btn mainButton mt-3" onclick="fireOrder(${Books[0]["order_id"]})">Place Order</button>`
             : ""
         }
         </div>
         `);
     },
     error: function (response) {
-      console.log(response);
-      Toast("error", response.responseJSON.message);
+      Toast("error", response.responseJSON?.message);
     },
   });
 }
@@ -282,20 +240,19 @@ function tableComponent(orders, type = "user", orderType = false) {
   }
 
   for (let order in orders) {
-    console.log(orders[order]["id"]);
     if (checked) {
-      newBody = `<td>
-                    <button class="btn btn-sm btn-danger me-2" onclick="cancelOrder('${orders[order]["id"]}')">Cancel</button>
-                    <button class="btn btn-sm btn-success" onclick="doneOrder('${orders[order]["id"]}')">Done</button>
+      newBody = `<td "buttons">
+                    <button class="btn secondaryButton btn-sm mb-1 mb-xl-0 me-xl-2" onclick="cancelOrder('${orders[order]["id"]}')">Cancel</button>
+                    <button class="btn mainButton btn-sm" onclick="doneOrder('${orders[order]["id"]}')">Done</button>
                 </td>`;
     }
     tableHtml += `
-            <tr>
+            <tr data-order-id="${orders[order].id}">
                 <th scope="row">${orders[order].id}</th>
                 <td>${orders[order].customer_name}</td>
                 <td>${orders[order].total_price}</td>
                 <td>
-                <span class="badge text-bg-success" style="cursor: pointer;" onclick="getCartItems('${orders[order].id}', 'showOrder');">Show Details</span>
+                    <span class="badge mainBadge" style="cursor: pointer;" onclick="getCartItems('${orders[order].id}', 'showOrder');">Show Details</span>
                 </td>
                 <td>${orders[order].created_at}</td>
                 ${checked ? newBody : ""}

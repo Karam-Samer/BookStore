@@ -1,0 +1,77 @@
+@use "./../abstracts" as *;
+
+.table-responsive {
+  border-radius: 12px;
+  border: 1px solid rgba($primary, 0.15);
+  background: $surface;
+
+  .table {
+    color: $text;
+    margin-bottom: 0;
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: rgba(200, 149, 108, 0.08);
+
+    thead {
+      color: $primary;
+      background: rgba($surface-light, 0.5);
+      border-bottom: 2px solid rgba($primary, 0.3);
+
+      th {
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        padding: 14px 16px;
+        border: none;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid rgba($primary, 0.1);
+        transition-duration: 0.2s;
+
+        td,
+        th {
+          padding: 12px 16px;
+          vertical-align: middle;
+          color: inherit;
+          border-color: rgba($primary, 0.1);
+          &.buttons{
+            button{
+              @include respond(350){
+                width: 100%;
+              }
+              @include respond(1200){
+                width: initial;
+              }
+            }
+          }
+        }
+
+        &:hover {
+          background-color: rgba($primary, 0.06);
+        }
+      }
+    }
+
+    &.mainTable {
+      --bs-table-bg: transparent;
+      --bs-table-striped-bg: #{rgba($surface-light, 0.3)};
+    }
+
+    .emptyRow {
+      background-color: rgba($accent-red, 0.15);
+      color: #ea9688;
+    }
+  }
+}
+
+.badge {
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 6px;
+
+  &.mainBadge {
+    background: $primary-gradient;
+    color: $bg;
+  }
+}

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('CSS/plugins/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('CSS/style.css') }}">
 
+
     <script src="{{ asset('JS/plugins/jquery.js') }}"></script>
     <script src="{{ asset('JS/plugins/alert.js') }}"></script>
     <script src="{{ asset('JS/plugins/bootstrap.js') }}"></script>
@@ -34,59 +35,59 @@
 
                         <div class="card-body">
                             <h5 class="card-title mb-3 d-flex align-items-center justify-content-center gap-2">
-                                <i class="fa-regular fa-pen-to-square edit text-info" role="button"
+                                <i class="fa-regular fa-pen-to-square edit" role="button" data-edit-label="Name"
                                     data-bs-toggle="modal" data-bs-target="#userEditModal" onclick="editUser(`Name`,`{{ auth('name') }}`)"></i>
                                 <span data-type="name">{{ auth("name") }}</span>
                             </h5>
 
                             <div class="row mb-3">
                                 <div class="col-4 d-flex">
-                                    <i class="fa-regular fa-pen-to-square edit text-info" role="button"
+                                    <i class="fa-regular fa-pen-to-square edit" role="button" data-edit-label="Email"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal" onclick="editUser(`Email`,`{{ auth('email') }}`)"></i>
                                     <h6 class="mb-0" style="white-space: nowrap;">Email :</h6>
                                 </div>
                                 <div class="col-8">
                                     <div class="item text-start">
-                                        <h6 class="mb-0 text-muted" data-type="email">{{ auth("email") }}</h6>
+                                        <h6 class="mb-0 secondaryText" data-type="email">{{ auth("email") }}</h6>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-4 d-flex">
-                                    <i class="fa-regular fa-pen-to-square edit text-info" role="button"
+                                    <i class="fa-regular fa-pen-to-square edit" role="button" data-edit-label="Gender"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal" onclick="editUser(`Gender`,`{{ auth('gender') }}`)"></i>
                                     <h6 class="mb-0" style="white-space: nowrap;">Gender :</h6>
                                 </div>
                                 <div class="col-8">
                                     <div class="item text-start">
-                                        <h6 class="mb-0 text-muted" data-type="gender">{{ auth("gender") }}</h6>
+                                        <h6 class="mb-0 secondaryText" data-type="gender">{{ auth("gender") }}</h6>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-4 d-flex">
-                                    <i class="fa-regular fa-pen-to-square edit text-info" role="button"
+                                    <i class="fa-regular fa-pen-to-square edit" role="button" data-edit-label="Phone"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal" onclick="editUser(`Phone`, `{{ auth('phone') }}`)"></i>
                                     <h6 class="mb-0" style="white-space: nowrap;">Phone :</h6>
                                 </div>
                                 <div class="col-8">
                                     <div class="item text-start">
-                                        <h6 class="mb-0 text-muted" data-type="phone">{{ auth("phone") }}</h6>
+                                        <h6 class="mb-0 secondaryText" data-type="phone">{{ auth("phone") }}</h6>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-4 d-flex">
-                                    <i class="fa-regular fa-pen-to-square edit text-info" role="button"
+                                    <i class="fa-regular fa-pen-to-square edit" role="button" data-edit-label="password"
                                         data-bs-toggle="modal" data-bs-target="#userEditModal" onclick="editUser(`password`, '')"></i>
                                     <h6 class="mb-0" style="white-space: nowrap;">Password :</h6>
                                 </div>
                                 <div class="col-8">
                                     <div class="item text-start">
-                                        <h6 class="mb-0 text-muted">••••••••</h6>
+                                        <h6 class="mb-0 secondaryText">••••••••</h6>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +95,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-9 bg-body rounded-5 p-4">
+                <div class="col-lg-9 rounded-5 p-4">
                     <div class="container">
 
                         <ul class="nav nav-tabs position-relative " id="myTab" role="tablist">
@@ -154,7 +155,7 @@
                                 </div>
                             </li>
                             @auth("customer")
-                            <button type="button" class="btn bg-primary-subtle text-primary-emphasis position-absolute top-0 end-0 " onclick="getCartItems()">
+                            <button type="button" class="btn cartBtn py-2 px-3 position-absolute top-0 end-0" onclick="getCartItems()">
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
                                     {{ $total['totalCartItems'] }}
@@ -218,13 +219,13 @@
                     <h1 class="modal-title fs-5">Edit User</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form data-type="" method="POST" id="userEditForm">
-                    <div class="modal-body">
+                <form data-type="" data-edit-label="" method="POST" id="userEditForm">
+                    <div class="modal-body p-4">
                         <label class="form-label">Value</label>
                         <input type="text" class="form-control" placeholder="Enter new value">
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info text-white">Save changes</button>
+                    <div class="modal-footer py-3 px-4">
+                        <button type="submit" class="btn mainButton">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -238,7 +239,7 @@
                     <h1 class="modal-title fs-5">Cart :</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                 </div>
             </div>
         </div>

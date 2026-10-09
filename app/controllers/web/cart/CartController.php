@@ -22,7 +22,7 @@ class CartController extends Controller
         }
 
         $data = CartModel::addToCart(Request::input('bookId'), Request::input('quantity'));
-        Response::json($data, "Item added to cart successfully", 200);
+        Response::json($data, "Item added to cart successfully");
     }
 
     public static function getCartItems(): void
@@ -39,7 +39,7 @@ class CartController extends Controller
             $orderId = Request::input('orderId');
         }
         $cartItems = CartModel::getCartItems($orderId);
-        Response::json($cartItems, "Cart items retrieved successfully", 200);
+        Response::json($cartItems, "Cart items retrieved successfully");
     }
 
     public static function updateCart(): void
@@ -63,11 +63,11 @@ class CartController extends Controller
             Response::json([], "Quantity must be greater than zero", 400);
         } else if ($quantity == 0) {
             $data = CartModel::removeFromCart();
-            Response::json($data, "Item removed from cart successfully", 200);
+            Response::json($data, "Item removed from cart successfully");
         }
 
         $data = CartModel::updateQuantity();
-        Response::json($data, "Quantity updated successfully", 200);
+        Response::json($data, "Quantity updated successfully");
     }
 
     public static function removeFromCart(): void
@@ -82,7 +82,7 @@ class CartController extends Controller
 
         $data = CartModel::removeFromCart();
 
-        Response::json($data, "Item removed from cart successfully", 200);
+        Response::json($data, "Item removed from cart successfully");
     }
 
     public static function fireOrder(): void
@@ -97,6 +97,6 @@ class CartController extends Controller
 
         $data = CartModel::fireOrder();
 
-        Response::json($data, "Order placed successfully", 200);
+        Response::json($data, "Order placed successfully");
     }
 }

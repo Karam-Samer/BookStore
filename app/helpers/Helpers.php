@@ -25,13 +25,13 @@ function old(string $key, mixed $default = ""): mixed
 
 function oldSelect(string $key, mixed $value, bool $unset = false): string
 {
-    $oldValue = old($key);
+    $oldValue = $_SESSION['_old'][$key] ?? null;
 
     if ($unset) {
-        unset($_SESSION['old'][$key]);
+        unset($_SESSION['_old'][$key]);
     }
 
-    return ($oldValue == $value) ? "selected" : "";
+    return ($oldValue !== null && $oldValue == $value) ? "selected" : "";
 }
 
 function redirect(string $path): void

@@ -17,7 +17,7 @@ class Controller
         file_put_contents($tempFile, $file);
 
         include $tempFile;
-        // unlink($tempFile);
+        unlink($tempFile);
     }
 
     private function patternsExecute(string $filePath, string $folderPath): string
