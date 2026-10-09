@@ -15,7 +15,7 @@ nav.navbar {
       border-radius: 25px;
     }
 
-    @include respond(1050) {
+    @include respond(650) {
       width: 100%;
       padding: 8px 24px;
       border-radius: 50px;
@@ -24,6 +24,16 @@ nav.navbar {
     .navbar-brand {
       width: 5%;
       cursor: pointer;
+      @include respond(350) {
+        width: 15%;
+      }
+
+      @include respond(650) {
+        width: 10%;
+      }
+      @include respond(850) {
+        width: 7%;
+      }
     }
 
     .navbar-toggler {

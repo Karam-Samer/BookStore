@@ -82,7 +82,7 @@ nav.navbar .container {
     border-radius: 25px;
   }
 }
-@media (min-width: 992px) and (max-width: 1300px) {
+@media (min-width: 577px) and (max-width: 1300px) {
   nav.navbar .container {
     width: 100%;
     padding: 8px 24px;
@@ -92,6 +92,21 @@ nav.navbar .container {
 nav.navbar .container .navbar-brand {
   width: 5%;
   cursor: pointer;
+}
+@media (max-width: 1300px) {
+  nav.navbar .container .navbar-brand {
+    width: 15%;
+  }
+}
+@media (min-width: 577px) and (max-width: 1300px) {
+  nav.navbar .container .navbar-brand {
+    width: 10%;
+  }
+}
+@media (min-width: 769px) and (max-width: 1300px) {
+  nav.navbar .container .navbar-brand {
+    width: 7%;
+  }
 }
 nav.navbar .container .navbar-toggler {
   width: 40px;
