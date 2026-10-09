@@ -1,6 +1,8 @@
 @use "../abstracts/" as *;
 
 nav.navbar {
+  position: relative;
+  z-index: 300;
   .container {
     border-radius: 50px;
     background: rgba($surface, 0.85);

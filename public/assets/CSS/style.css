@@ -67,6 +67,10 @@ body {
   color: #b0a192;
 }
 
+nav.navbar {
+  position: relative;
+  z-index: 300;
+}
 nav.navbar .container {
   border-radius: 50px;
   background: rgba(42, 33, 24, 0.85);
