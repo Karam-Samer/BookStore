@@ -1,7 +1,6 @@
 @use "../abstracts/" as *;
 
 nav.navbar {
-
   .container {
     border-radius: 50px;
     background: rgba($surface, 0.85);
@@ -142,7 +141,7 @@ nav.navbar {
       }
 
       &.active {
-        color: $text !important;
+        color: $text;
         background: rgba($primary, 0.25);
         border: 1px solid rgba($primary, 0.4);
         box-shadow: 0 0 20px rgba($primary, 0.2);

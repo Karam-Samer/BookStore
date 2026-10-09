@@ -201,7 +201,7 @@ nav.navbar .container .nav-link.dropdown-toggle:hover {
   color: #f5efe6;
 }
 nav.navbar .container .nav-link.active {
-  color: #f5efe6 !important;
+  color: #f5efe6;
   background: rgba(200, 149, 108, 0.25);
   border: 1px solid rgba(200, 149, 108, 0.4);
   box-shadow: 0 0 20px rgba(200, 149, 108, 0.2);
@@ -471,7 +471,16 @@ nav.navbar .dropdown-menu .dropdown-item:hover {
   margin-top: 10px;
 }
 #Dashboard .nav-tabs .nav-item ul li a {
+  font-size: 14px;
+  color: #b0a192;
+  border-radius: 8px;
+  transition-duration: 0.2s;
+}
+#Dashboard .nav-tabs .nav-item ul li a:hover, #Dashboard .nav-tabs .nav-item ul li a.active {
+  background: rgba(200, 149, 108, 0.2);
+  color: #f5efe6;
   color: #c8956c;
+  border-radius: 8px;
 }
 #Dashboard .nav-tabs .nav-item .nav-link {
   color: #b0a192;
